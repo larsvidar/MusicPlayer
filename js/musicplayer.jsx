@@ -117,7 +117,6 @@ class Application extends React.Component {
   }
 }
 
-
 Application.propTypes = {
   title: PropTypes.string.isRequired
 };
