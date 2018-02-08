@@ -85,7 +85,8 @@ p {
     margin: 0 auto 10px;
     width: 95%;
     height: 40vh;
-    overflow: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .playlist-table {
