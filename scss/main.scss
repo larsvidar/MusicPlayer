@@ -1,8 +1,81 @@
-body {
-  background: #333;
+/***** General styles *****/
+html {
+    margin: 0;
+    padding: 0;
 }
 
+body {
+  background-color: #000;
+
+}
+
+/***** Header *****/
 h1 {
   color: white;
   text-align: center;
+  padding: 3px 10px 10px 10px;;
+}
+
+/***** PLAYER *****/
+.player {
+  background: #333;
+  width: 90%;
+  margin: 7% auto;
+  border: solid 3px red;
+  border-radius: 50px;
+}
+
+/***** CONTROLS *****/
+.controls {
+  width: 90%;
+  background-color: #666;
+  margin: 0 auto 20px;
+  border: solid 1px white;
+  border-radius: 15px;
+  color: #ccc;
+  text-align: center;
+}
+
+// Song info
+.song-info {
+}
+
+p {
+  padding: 1px 0 0 0;
+}
+
+// Progress meter
+.progress-meter {
+  margin: 0 auto 20px;
+  height: 7px;
+  width: 75%;
+  background-color: #aaa;
+}
+
+.progress {
+  height: 100%;
+  width: 75%;
+  background-color: #a33;
+}
+
+// Player control buttons
+.buttons {
+  margin: 0 auto 10%;
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  text-shadow: 2px 2px 2px #222;
+  font-size: 32px;
+}
+
+.button {
+  &:hover {
+    color: #fff;
+    transform: translate(-2px, -2px);
+    text-shadow: 4px 4px 4px #222;
+  }
+  &:active {
+    transform: translate(2px, 2px);
+    text-shadow: 1px 1px 1px #222;
+  }
 }
