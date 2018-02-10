@@ -80,6 +80,10 @@ p {
   }
 }
 
+i {
+  padding: 5px 15px;
+}
+
 /***** PLAYLIST *****/
 .playlist {
     margin: 0 auto 10px;
@@ -103,6 +107,10 @@ p {
 
 tr:nth-child(even) {
   background-color: #223;
+}
+
+.playlist-table tr:nth-child(2) {
+  display: none;
 }
 
 td:last-child, th:last-child {

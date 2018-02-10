@@ -105,15 +105,13 @@ class Application extends React.Component {
     };
   }
 
-  navigate(diff) {
-    this.state.playIndex += diff;
-    if (this.state.playIndex < 1) {
-      this.state.playIndex = this.state.songlist.length - 1;
-      this.setState(this.state);
-    } else if(this.state.playIndex > this.state.songlist.length - 1) {
-      this.state.playIndex = 1;
+  onBackButton(diff) {
+    {console.log("Skip backward-button pushed " + diff)}
+    if (this.state.playIndex > 1) {
+      this.state.playIndex += diff;
       this.setState(this.state);
     } else {
+      this.state.playIndex = this.state.songlist.length - 1;
       this.setState(this.state);
     }
   }
@@ -122,6 +120,17 @@ class Application extends React.Component {
     {console.log("Play-button pushed " + diff)}
     this.state.playIndex += diff;
     this.setState(this.state);
+  }
+
+  onForwardButton(diff) {
+    {console.log("Skip Forward-button pushed " + diff)}
+    if (this.state.playIndex < this.state.songlist.length - 1) {
+      this.state.playIndex += diff;
+      this.setState(this.state);
+    } else {
+      this.state.playIndex = 1;
+      this.setState(this.state);
+    }
   }
 
   onStopButton() {
@@ -140,9 +149,9 @@ class Application extends React.Component {
           <Displaysong song={this.state.songlist[this.state.playIndex]}/>
           <Progress />
           <Controls
-            onBack={function(diff) {this.navigate(diff)}.bind(this)}
+            onBack={function(diff) {this.onBackButton(diff)}.bind(this)}
             onPlay={function(diff) {this.onPlayButton(diff)}.bind(this)}
-            onForward={function(diff) {this.navigate(diff)}.bind(this)}
+            onForward={function(diff) {this.onForwardButton(diff)}.bind(this)}
             onStop={function(diff) {this.onStopButton()}.bind(this)}
              />
           <div className="playlist">
