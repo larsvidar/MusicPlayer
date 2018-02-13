@@ -14,6 +14,7 @@ let songs = [
   {id: 10,  songTitle: "Stan",                        artist: "Eminem",             duration: 129,  url: "#"},
 ];
 
+let songIndex = 11;
 
 /***** HEADER component *****/
 function Header(props) {
@@ -24,6 +25,9 @@ function Header(props) {
     );
 }
 
+Header.propTypes = {
+  title: PropTypes.string.isRequired
+};
 
 /***** MENUBUTTON component *****/
 function MenuButton(props) {
@@ -40,53 +44,90 @@ MenuButton.propTypes = {
 /***** ADDSONGFORM component *****/
 class AddSongForm extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
+    this.onTitleChange = this.onTitleChange.bind(this);
+    this.onArtistChange = this.onArtistChange.bind(this);
+    this.onUrlChange = this.onUrlChange.bind(this);
+    this.addButton = this.addButton.bind(this);
+    this.state = {
+        songTitleValue: "",
+        artistValue: "",
+        urlValue: "",
+    }
+  }
+
+  onTitleChange(e) {
+    this.state.songTitleValue = e.target.value;
+    this.setState(this);
+  }
+
+  onArtistChange(e) {
+    this.state.artistValue = e.target.value;
+    this.setState(this);
+  }
+
+  onUrlChange(e) {
+    this.state.urlValue = e.target.value;
+    this.setState(this);
+  }
+
+  addButton(e) {
+    e.preventDefault();
+    this.props.onSongSubmit(this.state.songTitleValue, this.state.artistValue, this.state.urlValue);
+    this.setState({songTitleValue: "",
+                   artistValue: "",
+                   urlValue: "",
+                 })
   }
 
   render() {
     return (
       <div className="menu" style={this.props.menuStyle}>
         <h3>Add a song</h3>
-        <table>
-          <tr>
-            <td>
-              <lable for="title">Song title: </lable>
-            </td>
-            <td>
-              <input type="text" id="title" />
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <lable for="artist">Artist: </lable>
-            </td>
-            <td>
-              <input type="text" id="artist" />
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <lable for="url">URL: </lable>
-            </td>
-            <td>
-              <input type="text" id="url" />
-            </td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>
-              <input className="addSongButton" type="submit" value="Add song" />
-            </td>
-          </tr>
-        </table>
+        <form  onSubmit={this.addButton}>
+          <table>
+            <tr>
+              <td>
+                <lable for="title">Song title: </lable>
+              </td>
+              <td>
+                <input type="text" id="title" value={this.state.songTitleValue} onChange={this.onTitleChange} />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <lable for="artist">Artist: </lable>
+              </td>
+              <td>
+                <input type="text" id="artist" value={this.state.artistValue} onChange={this.onArtistChange} />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <lable for="url">URL: </lable>
+              </td>
+              <td>
+                <input type="text" id="url" value={this.state.urlValue} onChange={this.onUrlChange} />
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>
+                <input className="addSongButton" type="submit" value="Add song" />
+              </td>
+            </tr>
+          </table>
+      </form>
       </div>
     );
   }
 }
 
-Header.propTypes = {
-  title: PropTypes.string.isRequired
+AddSongForm.propTypes = {
+  menuStyle: PropTypes.object.isRequired,
+  onsSongSubmit: PropTypes.func.isRequired,
 };
+
 
 
 /***** DISPLAYSONG component *****/
@@ -198,7 +239,7 @@ Playlist.propTypes = {
 class Application extends React.Component {
   constructor(props) {
     super(props);
-    //this.onPlayButton = this.onPlayButton.bind(this);
+    this.addSong = this.addSong.bind(this);
     this.state = {
       title: "Music Player",
       songlist: this.props.initialPlaylist,
@@ -249,6 +290,18 @@ class Application extends React.Component {
     this.setState(this.state);
   }
 
+  addSong(title, artist, url) {
+    this.state.songlist.push({
+      id: songIndex,
+      songTitle: title,
+      artist: artist,
+      duration: 0,
+      url: url,
+    });
+    this.setState(this.state);
+    songIndex++;
+  }
+
   render() {
     return (
       <div className="player">
@@ -256,7 +309,8 @@ class Application extends React.Component {
         <MenuButton
           onMenuClick={function() {this.onMenuClick()}.bind(this)} />
         <AddSongForm
-          menuStyle={this.state.menuStyle} />
+          menuStyle={this.state.menuStyle}
+          onSongSubmit={this.addSong}/>
         <div className="controls">
           <Displaysong song={this.state.songlist[this.state.playIndex]}/>
           <Progress />
