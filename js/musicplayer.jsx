@@ -8,9 +8,9 @@ let songs = [
   {id: 4,   songTitle: "Bohemian Rhapsody",             artist: "Queen",              duration: 204,  url: "http://hcmaslov.d-real.sci-nnov.ru/public/mp3/Queen/Queen%20'Bohemian%20Rhapsody'.mp3"},
   {id: 5,   songTitle: "Mastermind",                    artist: "Mike Oldfield",      duration: 151,  url: "http://www.replicaradio.ro/audio/oldfield/millenium/07.Mike%20Oldfield-Mastermind.mp3"},
   {id: 6,   songTitle: "Heart Of Glass",                artist: "Blondie",            duration: 175,  url: "http://dora-robo.com/muzyka/70's-80's-90's%20/Blondie%20-%20Heart%20of%20Glass.mp3"},
-  {id: 7,   songTitle: "Hello Goodbye",                 artist: "Beatles",            duration: 121,  url: "http://tylergrund.com/mp3/Beatles/Hello%20Goodbye.mp3"},
+  {id: 7,   songTitle: "End Game",                      artist: "Taylor Swift",       duration: 121,  url: "http://s1.mmdl.xyz/1396/08/18/Taylor%20Swift%20-%20Reputation/2%20End%20Game.mp3"},
   {id: 8,   songTitle: "Ma Baker",                      artist: "Boney M",            duration: 254,  url: "http://dora-robo.com/muzyka/70's-80's-90's%20/Boney%20M.%20-%20Ma%20Baker.mp3"},
-  {id: 9,   songTitle: "Lucy In The Sky With Diamonds", artist: "Beatles",            duration: 300,  url: "http://tylergrund.com/mp3/Beatles/Lucy%20in%20the%20Sky%20with%20Diamonds.mp3"},
+  {id: 9,   songTitle: "Cocaine",                       artist: "Eric Clapton",       duration: 300,  url: "http://195.122.253.112/public/mp3/Eric%20Clapton/Eric%20Clapton%20'Cocaine'.mp3"},
   {id: 10,  songTitle: "All That She Wants",            artist: "Ace Of Base",        duration: 129,  url: "http://dora-robo.com/muzyka/70's-80's-90's%20/All%20That%20She%20Wants.mp3"},
 ];
 
@@ -58,18 +58,15 @@ class AddSongForm extends React.Component {
   }
 
   onTitleChange(e) {
-    this.state.songTitleValue = e.target.value;
-    this.setState(this);
+    this.setState({songTitleValue: e.target.value});
   }
 
   onArtistChange(e) {
-    this.state.artistValue = e.target.value;
-    this.setState(this);
+    this.setState({artistValue: e.target.value});
   }
 
   onUrlChange(e) {
-    this.state.urlValue = e.target.value;
-    this.setState(this);
+    this.setState({urlValue: e.target.value});
   }
 
   addButton(e) {
@@ -153,15 +150,25 @@ Displaysong.propTypes = {
 
 /***** PROGRESS component *****/
 function Progress(props) {
+  let lineStyle = {width: props.progressStyle + "%"}
   return (
-    <div className="progress-meter">
-      <div className="progress">
+    <div>
+      <div className="time">
+        <p>{props.timePassed}</p>
+        <p>{props.timeLength}</p>
+      </div>
+      <div className="progress-meter">
+        <div className="progress" style={lineStyle}>
+        </div>
       </div>
     </div>
   );
 }
 
 Progress.propTypes = {
+  timePassed: PropTypes.number.isRequired,
+  timeLength: PropTypes.number.isRequired,
+  progressStyle: PropTypes.number.isRequired,
 };
 
 
@@ -201,11 +208,12 @@ function PlayListBox(props) {
           <th className="edit"></th>
         </tr>
         {props.songlist.map(function(song) {
+          console.log(song);
           return (
             <Playlist
               songtitle={song.songTitle}
               artist={song.artist}
-              duration={song.duration} />
+              duration={audio.duration} />
           );
         }.bind(this))}
       </table>
@@ -251,6 +259,7 @@ class Application extends React.Component {
     super(props);
     this.addSong = this.addSong.bind(this);
     this.onPlayButton = this.onPlayButton.bind(this);
+    this.updateSongTime = this.updateSongTime.bind(this);
     this.state = {
       title: "Music Player",
       songlist: this.props.initialPlaylist,
@@ -259,6 +268,9 @@ class Application extends React.Component {
       playButtonStyle: {display: "block"},
       pauseButtonStyle: {display: "none"},
       isPlaying: false,
+      songPassed: 0,
+      songLength: 1,
+      songProgress: 0,
     };
   }
 
@@ -266,14 +278,24 @@ class Application extends React.Component {
   onMenuClick() {
     // Closes menu if open.
     if (this.state.menuStyle.display === "block") {
-      this.state.menuStyle = {display: "none"};
-      this.setState(this.state);
+      this.setState({menuStyle: {display: "none"}});
       // Opens menu if closed.
     } else {
-      this.state.menuStyle = {display: "block"};
-      this.setState(this.state);
+      this.setState({menuStyle: {display: "block"}});
     }
   }
+
+  //Updates song timers.
+  updateSongTime() {
+    console.log("Update");
+    this.setState({
+      songLength: Math.floor(audio.duration),
+      songPassed: Math.floor(audio.currentTime),
+      songProgress: ( (100 / audio.duration) * audio.currentTime ),
+    });
+  }
+
+
 
   //Handles the skip forward and skip backward buttons.
   navigate(diff) {
@@ -330,6 +352,7 @@ class Application extends React.Component {
   }
 
   componentDidMount() {
+    //this.interval = setInterval(this.updateSongTime, 100);
     audio.addEventListener("ended", function() {
       this.navigate(1);
     }.bind(this));
@@ -358,7 +381,7 @@ class Application extends React.Component {
           onSongSubmit={this.addSong}/>
         <div className="controls">
           <Displaysong song={this.state.songlist[this.state.playIndex]}/>
-          <Progress />
+          <Progress timePassed={this.state.songPassed} timeLength={this.state.songLength} progressStyle={this.state.songProgress} />
           <Controls
             onBack={function(diff) {this.navigate(diff)}.bind(this)}
             onPlay={function() {this.onPlayButton()}.bind(this)}

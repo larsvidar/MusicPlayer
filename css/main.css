@@ -39,10 +39,16 @@ p {
   padding: 1px 0 0 0; }
 
 /***** PROGRESS component *****/
+.time {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 10px;
+  margin-bottom: -30px; }
+
 .progress-meter {
   margin: 0 auto 20px;
-  height: 7px;
-  width: 80%;
+  height: 5px;
+  width: 65%;
   background-color: #aaa; }
 
 .progress {
@@ -68,7 +74,7 @@ p {
   text-shadow: 1px 1px 1px #222; }
 
 i {
-  padding: 5px 15px; }
+  padding: 5px 15px 5px 10px; }
 
 /***** PLAYLISTBOX component *****/
 .playlist {
