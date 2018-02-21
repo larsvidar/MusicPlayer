@@ -44,6 +44,7 @@ Header.propTypes = {
   title: PropTypes.string.isRequired
 };
 
+
 /***** MENUBUTTON component *****/
 function MenuButton(props) {
   return(
@@ -164,10 +165,10 @@ Displaysong.propTypes = {
 /***** PROGRESS component *****/
 function Progress(props) {
   let lineStyle = {width: props.progressStyle + "%"}
-  let passedMinutes = Math.floor(props.timePassed / 60);
-  let passedSeconds = (props.timePassed % 60).toLocaleString(undefined, {minimumIntegerDigits: 2});
-  let lengthMinutes = Math.floor(props.timeLength / 60);
-  let lengthSeconds = (props.timeLength % 60).toLocaleString(undefined, {minimumIntegerDigits: 2});
+  let passedMinutes = Math.floor(props.timePassed / 60); //Finds how many minutes has passed.
+  let passedSeconds = (props.timePassed % 60).toLocaleString(undefined, {minimumIntegerDigits: 2}); //Finds the seconds, and add a zero if the number is below 10.
+  let lengthMinutes = Math.floor(props.timeLength / 60); //Finds how many minutes the song is.
+  let lengthSeconds = (props.timeLength % 60).toLocaleString(undefined, {minimumIntegerDigits: 2}); //Finds the seconds, and add a zero if the number is below 10.
 
   return (
     <div>
@@ -314,6 +315,19 @@ class Application extends React.Component {
     });
   }
 
+  //Makes sure the song-timer updates regulary.
+  componentDidMount() {
+    this.interval = setInterval(this.updateSongTime, 100);
+    audio.addEventListener("ended", function() {
+      this.navigate(1);
+    }.bind(this));
+  }
+
+  //Clears interval if unmounted
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
+
   //Handles the skip forward and skip backward buttons.
   navigate(diff) {
     this.state.playIndex += diff;
@@ -350,6 +364,7 @@ class Application extends React.Component {
     this.setState(this);
   }
 
+  //Handles the pause button.
   onPauseButton() {
     this.state.isPlaying = false;
     audio.pause();
@@ -368,17 +383,7 @@ class Application extends React.Component {
     this.setState(this.state);
   }
 
-  componentDidMount() {
-    this.interval = setInterval(this.updateSongTime, 100);
-    audio.addEventListener("ended", function() {
-      this.navigate(1);
-    }.bind(this));
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.interval);
-  }
-
+  //Adds song to playlist from AddSongForm.
   addSong(title, artist, url) {
     this.state.songlist.push({
       id: songIndex,
@@ -391,6 +396,7 @@ class Application extends React.Component {
     songIndex++;
   }
 
+  //Renders the content of the page.
   render() {
     return (
       <div className="player">
