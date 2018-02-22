@@ -9,7 +9,7 @@ html {
 body {
   background-color: #000; }
 
-#container {
+#root {
   position: relative;
   margin: 0 auto;
   max-width: 640px; }
@@ -39,9 +39,6 @@ h1 {
   color: #ccc;
   text-align: center; }
 
-.tingle-modal-box {
-  background-color: #333; }
-
 /***** DISPLAYSONG component *****/
 p {
   padding: 1px 0 0 0; }
@@ -57,10 +54,14 @@ p {
   margin: 0 auto 20px;
   height: 5px;
   width: 65%;
-  background-color: #aaa; }
-  @media screen and (min-width: 535px) {
-    .progress-meter {
-      width: 80%; } }
+  background-color: #aaa; 
+ }
+ 
+@media screen and (min-width: 535px) {
+	.progress-meter {
+		width: 80%;
+	}
+}
 
 .progress {
   height: 100%;
@@ -135,13 +136,20 @@ i {
   top: 15px;
   right: 15px;
   color: white;
-  font-size: 32px; }
-  @media screen and (min-width: 390px) {
-    .fa-bars {
-      right: 30px; } }
-  @media screen and (min-width: 500px) {
-    .fa-bars {
-      right: 50px; } }
+  font-size: 32px; 
+  }
+  
+@media screen and (min-width: 390px) {
+	.fa-bars {
+		right: 30px;
+	}
+}
+
+@media screen and (min-width: 500px) {
+	.fa-bars {
+		right: 50px;
+	}
+}
 
 /***** ADDSONGFORM *****/
 .menu {
@@ -164,5 +172,3 @@ input {
 
 .addSongButton {
   width: 100px; }
-
-/*# sourceMappingURL=main.css.map */
