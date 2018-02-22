@@ -167,8 +167,10 @@ function Progress(props) {
   let lineStyle = {width: props.progressStyle + "%"}
   let passedMinutes = Math.floor(props.timePassed / 60); //Finds how many minutes has passed.
   let passedSeconds = (props.timePassed % 60).toLocaleString(undefined, {minimumIntegerDigits: 2}); //Finds the seconds, and add a zero if the number is below 10.
-  let lengthMinutes = Math.floor(props.timeLength / 60); //Finds how many minutes the song is.
-  let lengthSeconds = (props.timeLength % 60).toLocaleString(undefined, {minimumIntegerDigits: 2}); //Finds the seconds, and add a zero if the number is below 10.
+  let lengthMinutes = 0;
+  let lengthSeconds = (0).toLocaleString(undefined, {minimumIntegerDigits: 2});
+  if (props.timeLength > 0) {lengthMinutes = Math.floor(props.timeLength / 60);} //Finds how many minutes the song is, sets zero if no song is loaded.
+  if (props.timeSeconds > 0) {lengthSeconds = (props.timeLength % 60).toLocaleString(undefined, {minimumIntegerDigits: 2});} //Finds the seconds, and add a zero if the number is below 10. Sets zero if no song is loaded.
 
   return (
     <div>
@@ -290,7 +292,7 @@ class Application extends React.Component {
       pauseButtonStyle: {display: "none"},
       isPlaying: false,
       songPassed: 0,
-      songLength: 1,
+      songLength: 0,
       songProgress: 0,
     };
   }

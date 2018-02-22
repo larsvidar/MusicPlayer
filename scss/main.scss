@@ -1,4 +1,8 @@
 /***** General styles *****/
+* {
+  box-sizing: border-box;
+}
+
 html {
     margin: 0;
     padding: 0;
@@ -7,6 +11,12 @@ html {
 body {
   background-color: #000;
 
+}
+
+#container {
+  position: relative;
+  margin: 0 auto;
+  max-width: 640px;
 }
 
 /***** PLAYER *****/
@@ -63,6 +73,9 @@ p {
   height: 5px;
   width: 65%;
   background-color: #aaa;
+  @media screen and (min-width: 535px) {
+    width: 80%;
+  }
 }
 
 .progress {
@@ -158,27 +171,34 @@ i {
 /***** MENUBUTTON component *****/
 .fa-bars {
   position: absolute;
-  top: 33px;
-  right: 25px;
+  top: 15px;
+  right: 15px;
   color: white;
   font-size: 32px;
+  @media screen and (min-width: 390px) {
+    right: 30px;
+  }
+  
+  @media screen and (min-width: 500px) {
+    right: 50px;
+  }
 }
 
 /***** ADDSONGFORM *****/
 .menu {
-position: absolute;
-display: block;
-width: 75%;
-top: 80px;
-left: 0;
-right: 0;
-margin-left: auto;
-margin-right: auto;
-background-color: #888;
-padding: 0 10px 25px;
-border: solid 1px black;
-border-radius: 30px;
-box-shadow: 2px 10px 10px black;
+  position: absolute;
+  display: block;
+  width: 75%;
+  top: 80px;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #888;
+  padding: 0 10px 25px;
+  border: solid 1px black;
+  border-radius: 30px;
+  box-shadow: 2px 10px 10px black;
 }
 
 input {
