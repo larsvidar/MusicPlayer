@@ -54,9 +54,9 @@ p {
   margin: 0 auto 20px;
   height: 5px;
   width: 65%;
-  background-color: #aaa; 
+  background-color: #aaa;
  }
- 
+
 @media screen and (min-width: 535px) {
 	.progress-meter {
 		width: 80%;
@@ -136,9 +136,9 @@ i {
   top: 15px;
   right: 15px;
   color: white;
-  font-size: 32px; 
+  font-size: 32px;
   }
-  
+
 @media screen and (min-width: 390px) {
 	.fa-bars {
 		right: 30px;
@@ -168,7 +168,8 @@ i {
   box-shadow: 2px 10px 10px black; }
 
 input {
-  width: 50vw; }
+  width: 45vw;
+  max-width: 350px;}
 
 .addSongButton {
   width: 100px; }
