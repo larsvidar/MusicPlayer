@@ -39,14 +39,14 @@ class AddSongForm extends Component {
     this.onUrlChange = this.onUrlChange.bind(this);
     this.addButton = this.addButton.bind(this);
   }
-  
+
   state = {
         songTitleValue: "",
         artistValue: "",
         urlValue: "",
 		}
-  
-  
+
+
 
   onTitleChange(e) {
     this.setState({songTitleValue: e.target.value});
@@ -149,7 +149,7 @@ function Progress(props) {
   let lengthSeconds = (0).toLocaleString(undefined, {minimumIntegerDigits: 2});
   if (props.timeLength > 0) {lengthMinutes = Math.floor(props.timeLength / 60);} //Finds how many minutes the song is, sets zero if no song is loaded.
   if (!isNaN(props.timeLength)) {lengthSeconds = (props.timeLength % 60).toLocaleString(undefined, {minimumIntegerDigits: 2});} //Finds the seconds, and add a zero if the number is below 10. Sets zero if no song is loaded.
-  
+
   return (
     <div>
       <div className="time">
@@ -263,9 +263,9 @@ class App extends Component {
     this.addSong = this.addSong.bind(this);
     this.onPlayButton = this.onPlayButton.bind(this);
     this.updateSongTime = this.updateSongTime.bind(this);
-	
-	this.playIndex = 0;
-}
+
+  	this.playIndex = 0;
+  }
   
   state = {
       title: "Music Player",
