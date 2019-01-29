@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
 import registerServiceWorker from './registerServiceWorker';
+import App from './App.jsx';
+
 
 /***** Songs array *****/
 //Index 0 is reserved for stopped state.
@@ -21,18 +22,21 @@ let songs = [
 ];
 
 // Function for setting duration for all songs on the playlist.
-function setDurations() {
-  for (let i = 1; i < songs.length; i++) {
+function setDurations(songsArray) {
+  for (let i = 1; i < songsArray.length; i++) {
     const tempAudio = new Audio();
     tempAudio.src = songs[i].url;
     tempAudio.load();
     tempAudio.onloadedmetadata = () => {
-      songs[i].duration = Math.floor(tempAudio.duration);
+      songsArray[i].duration = Math.floor(tempAudio.duration);
     }
   }
+  return songsArray;
 }
 
-setDurations();
+//Make a new array wich includes the duration of the songs.
+const newSongsArray = setDurations(songs);
 
-ReactDOM.render(<App initialPlaylist={songs}/>, document.getElementById('root'));
+//Calls the react App component.
+ReactDOM.render(<App initialPlaylist={newSongsArray}/>, document.getElementById('root'));
 registerServiceWorker();
