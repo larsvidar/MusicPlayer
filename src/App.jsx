@@ -10,6 +10,7 @@ import Controls from "./Components/Controls";
 import PlayListBox from "./Components/Playlist/PlayListBox";
 
 const audio = new Audio();
+//audio.crossOrigin = "anonymous";
 let songIndex = 11;
 
 
@@ -23,6 +24,7 @@ class App extends Component {
     this.onPlayButton = this.onPlayButton.bind(this);
     this.updateSongTime = this.updateSongTime.bind(this);
 
+    this.onMenuClick = this.onMenuClick.bind(this);
     this.navigate = this.navigate.bind(this);
     this.onPlayButton = this.onPlayButton.bind(this);
     this.onPauseButton = this.onPauseButton.bind(this);
@@ -155,7 +157,7 @@ class App extends Component {
       <div className="player">
         <Header title={this.state.title} />
         <MenuButton
-          onMenuClick={function() {this.onMenuClick()}.bind(this)} />
+          onMenuClick={this.onMenuClick} />
         <AddSongForm
           menuStyle={this.state.menuStyle}
           onSongSubmit={this.addSong}/>
@@ -163,10 +165,10 @@ class App extends Component {
           <DisplaySong song={this.state.songlist[this.playIndex]}/>
           <Progress timePassed={this.state.songPassed} timeLength={this.state.songLength} progressStyle={this.state.songProgress} />
           <Controls
-            onBack={function(diff) {this.navigate(diff)}}
+            onBack={function(diff) {this.navigate(diff)}.bind(this)}
             onPlay={this.onPlayButton}
             onPause={this.onPauseButton}
-            onForward={function(diff) {this.navigate(diff)}}
+            onForward={function(diff) {this.navigate(diff)}.bind(this)}
             onStop={this.onStopButton}
             playStyle={this.state.playButtonStyle}
             pauseStyle={this.state.pauseButtonStyle}/>
