@@ -12,6 +12,7 @@ jobs:
     name: 🎉 Deploy
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    environment: production
 
     steps:
     - name: 🚚 Get latest code
@@ -36,5 +37,6 @@ jobs:
         server: "$env:HOST"
         username: "$env:USER"
         password: "$env:PASS"
+        server-dir: ./musicplayer
         protocol: ftps
         port: 22
