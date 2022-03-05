@@ -6,12 +6,12 @@ import DisplaySong from 'components/DisplaySong/DisplaySong';
 import Progress from 'components/Progress/Progress';
 import Controls from 'components/Controls/Controls';
 import PlayListBox from 'components/Playlist/PlayList';
-import {useEffect, useRef, useState} from 'react';
+import {SyntheticEvent, useEffect, useRef, useState} from 'react';
 import initialPlaylist from 'data/initialSongs.json';
 import config from 'data/configData.json';
 import styles from './App.module.scss'
-import {genUid, getTimeoutObject, isEmpty, jsonParse} from 'utils/actions';
-import {IPlayState, ISong} from 'types/IGeneral';
+import {genUid, getTimeoutObject, handleEvent, isEmpty, jsonParse, serializeForm} from 'utils/actions';
+import {genObject, IPlayState, ISong} from 'types/IGeneral';
 import {calculatePlayState, setAudioDurations} from 'utils/mActions';
 
 
@@ -78,6 +78,7 @@ const App = () => {
 		updatePlayState();
 	}, [playlist, song]); //eslint-disable-line
 
+
 	//Sets ended-event-listener
 	//	-Makes sure the player loads next song when current song is finished.
 	useEffect(() => {
@@ -102,6 +103,14 @@ const App = () => {
 
 	/*** Functions ***/
 
+	const updateLocalStorage = async (song: ISong) => {
+		const [newSong] = await setAudioDurations([song]);
+		const savedPlaylist: ISong[] = jsonParse(localStorage.playlist);
+		const newPlaylist = [...(savedPlaylist || []), newSong];
+		localStorage.playlist = JSON.stringify(newPlaylist);
+		return newPlaylist;
+	}
+
 	/**
 	 * Setter for playState. Makes sure one setting dont overwrite other settings.
 	 * @param data Data to set to state. 
@@ -121,6 +130,11 @@ const App = () => {
 		setPlayState(newPlayState)
 	}
 
+
+	/**
+	 * Skips forwards or backwards in playlist.
+	 * @param factor Number of songs to skip (negative numbers skip backwards)
+	 */
 	const handleNavigate = (factor = 1) => {
 		const currentIndex = playlist.findIndex((thisSong) => thisSong.id === song.id);
 		let newIndex = currentIndex + factor;
@@ -130,23 +144,23 @@ const App = () => {
 		setSong(playlist[newIndex]);
 	};
 
+
 	const handleStop = () => {
 		setIsPlaying(false);
-		setPlayState({isPlaying: false, progress: 0} as IPlayState);
+		setPlayState({isPlaying: false, progress: 0, currentTime: 0} as IPlayState);
+		audio.current.currentTime = 0;
 	}
 
 	//Adds song to playlist from AddSongForm.
-	const addSong = (title: string, artist: string, url: string) => {
-		setPlaylist([
-			...playlist,
-			{
-				id: genUid(8),
-				songTitle: title,
-				artist: artist,
-				duration: 0,
-				url: url,
-			}
-		]);
+	const addSong = async (event: SyntheticEvent) => {
+		const target = handleEvent<HTMLFormElement>(event);
+		const data = serializeForm(target) as ISong;
+		if(data.url?.substring(0, 4) !== 'http') return;
+
+		const newPlaylist = await updateLocalStorage(data);
+
+		setPlaylist(newPlaylist);
+		setShowMenu(false);
 	};
 
 
@@ -157,7 +171,7 @@ const App = () => {
 				<Header title={config.title} />
 				<MenuButton onMenuClick={() => setShowMenu(!showMenu)} />
 				{showMenu &&
-					<AddSongForm onSongSubmit={addSong} />
+					<AddSongForm handleAdd={addSong} />
 				}
 				
 				<div className={styles.controls}>
