@@ -1,3 +1,5 @@
+[![🚀 FTP push to apache-server](https://github.com/larsvidar/MusicPlayer/actions/workflows/ftp-deploy.yml/badge.svg?branch=master&event=push)](https://github.com/larsvidar/MusicPlayer/actions/workflows/ftp-deploy.yml)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
