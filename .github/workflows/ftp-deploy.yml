@@ -32,9 +32,11 @@ jobs:
     
     - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@4.3.0
+      env: 
+        HOST: ${{ secrets.FTP_HOST }}
       with:
-        server: '${{ env.FTP_HOST }}'
-        username: '${{ secrets.FTP_USER }}'
-        password: '${{ secrets.FTP_PASSWORD }}'
+        server: '$HOST'
+        username: ${{ secrets.FTP_USER }}
+        password: ${{ secrets.FTP_PASSWORD }}
         protocol: ftps
         port: 22
