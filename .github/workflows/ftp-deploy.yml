@@ -12,6 +12,10 @@ jobs:
     name: 🎉 Deploy
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    env: 
+      HOST: ${{ secrets.FTP_HOST }}
+      USER: ${{ secrets.FTP_USER }}
+      PASS: ${{ secrets.FTP_PASSWORD }}
     steps:
     - name: 🚚 Get latest code
       uses: actions/checkout@v2
@@ -27,13 +31,9 @@ jobs:
         npm run build
     - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@4.3.0
-      env: 
-        HOST: ${{ secrets.FTP_HOST }}
-        USER: ${{ secrets.FTP_USER }}
-        PASS: ${{ secrets.FTP_PASSWORD }}
       with:
-        server: $HOST
-        username: $USER
-        password: $PASS
+        server: "$env:HOST"
+        username: "$env:USER"
+        password: "$env:PASS"
         protocol: ftps
         port: 22
