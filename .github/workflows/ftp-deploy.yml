@@ -37,6 +37,6 @@ jobs:
         server: "$env:HOST"
         username: "$env:USER"
         password: "$env:PASS"
-        server-dir: ./musicplayer
+        server-dir: ./musicplayer/
         protocol: ftps
         port: 22
