@@ -35,8 +35,8 @@ jobs:
         PASS: ${{ secrets.FTP_PASSWORD }}
       with:
         server: "${{ secrets.FTP_HOST }}"
-        username: "$env:USER"
-        password: "$env:PASS"
+        username: "${{ secrets.FTP_USER }}"
+        password: "${{ secrets.FTP_PASSWORD }}"
         server-dir: ./musicplayer/
         protocol: ftps
         port: 22
