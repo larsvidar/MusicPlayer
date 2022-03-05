@@ -12,7 +12,7 @@ import config from 'data/configData.json';
 import styles from './App.module.scss'
 import {genUid, getTimeoutObject, isEmpty, jsonParse} from 'utils/actions';
 import {IPlayState, ISong} from 'types/IGeneral';
-import {setAudioDurations} from 'utils/mActions';
+import {calculatePlayState, setAudioDurations} from 'utils/mActions';
 
 
 /***** COMPONENT-FUNCTION *****/
@@ -45,11 +45,13 @@ const App = () => {
 		if(!localStorage.playlist) {
 			setAudioDurations(initialPlaylist as unknown as ISong[]).then((result: ISong[]) => {
 				localStorage.playlist = JSON.stringify(result, null, 4);
+				setSong(result[0]);
 				setPlaylist(result)
 			});
 		} else {
 			const savedPlaylist: ISong[] = jsonParse(localStorage.playlist);
-			setPlaylist(savedPlaylist)
+			setPlaylist(savedPlaylist);
+			setSong(savedPlaylist[0])
 		}
 
 		const tempTimeout = timeouts.current;
@@ -63,18 +65,6 @@ const App = () => {
 	//Runs when playlist- or song-state is updated
 	//	-If no song is selected, select first song in playlist.
 	useEffect(() => {
-		if(isEmpty(song)) setSong(playlist[0] || {} as ISong)
-	}, [playlist, song]); 
-
-
-	//Makes sure the song-timer updates regularly.
-	useEffect(() => {
-		//const interval = setInterval(updatePlayState, 100);
-		if(audio.current) audio.current.addEventListener("ended", () => handleNavigate());
-	}, [audio]); //eslint-disable-line
-
-
-	useEffect(() => {
 		if(!isEmpty(song)) {
 			audio.current.src = song.url;
 
@@ -86,9 +76,18 @@ const App = () => {
 		}
 
 		updatePlayState();
-	}, [song]); //eslint-disable-line
+	}, [playlist, song]); //eslint-disable-line
+
+	//Sets ended-event-listener
+	//	-Makes sure the player loads next song when current song is finished.
+	useEffect(() => {
+		//const interval = setInterval(updatePlayState, 100);
+		if(audio.current) audio.current.addEventListener("ended", () => handleNavigate());
+	}, [audio.current]); //eslint-disable-line
 
 
+	//Runs when isPlaying-state is updated
+	//	-Starts or stops audio, and sets or removes playState-interval.
 	useEffect(() => {
 		if(isPlaying) {
 			timeouts.current.playing = setInterval(updatePlayState, 250);
@@ -103,6 +102,10 @@ const App = () => {
 
 	/*** Functions ***/
 
+	/**
+	 * Setter for playState. Makes sure one setting dont overwrite other settings.
+	 * @param data Data to set to state. 
+	 */
 	const setPlayState = (data: IPlayState) => {
 		setNativePlayState((prevPlayState) => {
 			return {...prevPlayState, ...data};
@@ -110,20 +113,12 @@ const App = () => {
 	}
 
 
-	//Updates song timers.
+	/**
+	 * Calculates and updates playState.
+	 */
 	const updatePlayState = () => {
 		const newPlayState = calculatePlayState(audio.current);
 		setPlayState(newPlayState)
-	}
-
-	const calculatePlayState = (audio: HTMLAudioElement) => {
-		const result = {} as IPlayState;
-		result.isPlaying = !audio.paused;
-		result.duration = Math.floor(audio.duration || 0);
-		result.currentTime = Math.floor(audio.currentTime || 0);
-		const progress = ((100 / result.duration) * result.currentTime) || 0;
-		result.progress = Math.floor(progress);
-		return result;
 	}
 
 	const handleNavigate = (factor = 1) => {

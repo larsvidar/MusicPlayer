@@ -1,4 +1,4 @@
-import {ISong} from "types/IGeneral";
+import {IPlayState, ISong} from "types/IGeneral";
 
 
 /**
@@ -22,4 +22,15 @@ export const setAudioDurations = async (songsArray: ISong[]) => {
 	}
 	const resolved = await Promise.all(newSongsArray);
 	return resolved;
+}
+
+
+export const calculatePlayState = (audio: HTMLAudioElement) => {
+	const result = {} as IPlayState;
+	result.isPlaying = !audio.paused;
+	result.duration = Math.floor(audio.duration || 0);
+	result.currentTime = Math.floor(audio.currentTime || 0);
+	const progress = ((100 / result.duration) * result.currentTime) || 0;
+	result.progress = Math.floor(progress);
+	return result;
 }

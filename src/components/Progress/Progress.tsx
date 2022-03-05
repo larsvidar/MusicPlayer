@@ -15,12 +15,12 @@ interface IProgressProps {
 const Progress: FC<IProgressProps> = ({playState}) => {
 	
 	/*** Variables ***/
-	// //Style for making the progress-meter fill up.
+	//Style for making the progress-meter fill up.
 	const lineStyle = {width: (playState.progress || 1) + "%"};
 	const passedMinutes = toMinutes(playState.currentTime);
 	const duration = toMinutes(playState.duration);
 
-
+	/*** Return-statement ***/
 	return (
 		<div className={styles.Progress}>
 			<div className={styles.time}>

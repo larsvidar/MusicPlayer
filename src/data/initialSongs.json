@@ -1,48 +1,8 @@
 [
 	{
 		"id": 1,
-		"songTitle": "A Kind Of Magic",       
-		"artist": "Queen",            	
-		"url": "http://hcmaslov.d-real.sci-nnov.ru/public/mp3/Queen/Queen%20'A%20Kind%20Of%20Magic'.mp3"
-	},{
-		"id": 2,
-		"songTitle": "Dynamite",              
-		"artist": "Scorpions",        
-		"url": "http://hcmaslov.d-real.sci-nnov.ru/public/mp3/Scorpions/Scorpions%20'Dynamite'.mp3"
-	},{
-		"id": 3,
-		"songTitle": "Got My Mind Set On You",
-		"artist": "George Harrison",  	
-		"url": "http://dora-robo.com/muzyka/70's-80's-90's%20/George%20Harrison%20-%20Got%20My%20Mind%20Set%20On%20You%20%5bJanuary%201988%5d.mp3"
-	},{
-		"id": 4,
-		"songTitle": "Bohemian Rhapsody",     
-		"artist": "Queen",            
-		"url": "http://hcmaslov.d-real.sci-nnov.ru/public/mp3/Queen/Queen%20'Bohemian%20Rhapsody'.mp3"
-	},{
-		"id": 5,
-		"songTitle": "Mastermind",            
-		"artist": "Mike Oldfield",    	
-		"url": "http://www.replicaradio.ro/audio/oldfield/millenium/07.Mike%20Oldfield-Mastermind.mp3"
-	},{
-		"id": 6,
-		"songTitle": "Heart Of Glass",        
-		"artist": "Blondie",          	
-		"url": "http://dora-robo.com/muzyka/70's-80's-90's%20/Blondie%20-%20Heart%20of%20Glass.mp3"
-	},{
-		"id": 8,
-		"songTitle": "Ma Baker",              
-		"artist": "Boney M",          	
-		"url": "http://dora-robo.com/muzyka/70's-80's-90's%20/Boney%20M.%20-%20Ma%20Baker.mp3"
-	},{
-		"id": 9,
-		"songTitle": "Cocaine",               
-		"artist": "Eric Clapton",     	
-		"url": "http://195.122.253.112/public/mp3/Eric%20Clapton/Eric%20Clapton%20'Cocaine'.mp3"
-	},{
-		"id": 10,  
-		"songTitle": "All That She Wants",      
-		"artist": "Ace Of Base",      	
-		"url": "http://dora-robo.com/muzyka/70's-80's-90's%20/All%20That%20She%20Wants.mp3"
+		"songTitle": "Chill Abstract",       
+		"artist": "Coma-Media",            	
+		"url": "https://cdn.pixabay.com/download/audio/2021/12/13/audio_b9c0dc9e48.mp3"
 	}
 ]
