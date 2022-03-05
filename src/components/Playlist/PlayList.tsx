@@ -1,8 +1,8 @@
 /***** IMPORTS *****/
-import {ISong} from 'components/App';
 import {FC} from 'react';
 import Song from './Song';
 import styles from './Playlist.module.scss';
+import {ISong} from 'types/IGeneral';
 
 /**** TYPES *****/
 interface IPlayList {
@@ -25,7 +25,7 @@ const PlayList: FC<IPlayList> = ({playlist = []}) => {
 
 					{/* Song-list */}
 					{playlist?.map((song: any) => (
-						<Song song={song} />
+						<Song key={song.id} song={song} />
 					))}
 				</tbody>
 			</table>

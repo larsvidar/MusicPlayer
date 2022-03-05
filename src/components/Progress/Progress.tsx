@@ -1,42 +1,34 @@
 /***** IMPORTS *****/
 import {FC} from 'react';
+import {IPlayState} from 'types/IGeneral';
+import {toMinutes} from 'utils/actions';
 import styles from './Progress.module.scss';
 
 
 /**** TYPES *****/
 interface IProgressProps {
-	timePassed: number,
-	timeLength: number,
-	progressStyle: number,
+	playState: IPlayState,
 }
 
 
 /***** COMPONENT-FUNCTION *****/
-const Progress: FC<IProgressProps> = ({timePassed, timeLength, progressStyle}) => {
+const Progress: FC<IProgressProps> = ({playState}) => {
 	
 	/*** Variables ***/
-	//Style for making the progress-meter fill up.
-	let lineStyle = {width: progressStyle + "%"};
-	//Finds how many minutes has passed.
-	let passedMinutes = Math.floor(timePassed / 60);
-	//Finds the seconds, and add a zero if the number is below 10.
-	let passedSeconds = (timePassed % 60).toLocaleString(undefined, {minimumIntegerDigits: 2});
-	let lengthMinutes = 0;
-	let lengthSeconds = (0).toLocaleString(undefined, {minimumIntegerDigits: 2});
-	//Finds how many minutes the song is, sets zero if no song is loaded.
-	if (timeLength > 0) {lengthMinutes = Math.floor(timeLength / 60);}
-	//Finds the seconds, and add a zero if the number is below 10. Sets zero if no song is loaded.
-	if (!isNaN(timeLength)) {lengthSeconds = (timeLength % 60).toLocaleString(undefined, {minimumIntegerDigits: 2});}
+	// //Style for making the progress-meter fill up.
+	const lineStyle = {width: (playState.progress || 1) + "%"};
+	const passedMinutes = toMinutes(playState.currentTime);
+	const duration = toMinutes(playState.duration);
+
 
 	return (
 		<div className={styles.Progress}>
 			<div className={styles.time}>
-				<p>{passedMinutes}:{passedSeconds}</p>
-				<p>{lengthMinutes}:{lengthSeconds}</p>
+				<p>{passedMinutes}</p>
+				<p>{duration}</p>
 			</div>
 			<div className={styles.progressMeter}>
-				<div className={styles.progress} style={lineStyle}>
-				</div>
+				<div className={styles.progress} style={lineStyle} />
 			</div>
 		</div>
 	);

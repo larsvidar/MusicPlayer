@@ -135,13 +135,7 @@ export const toMinutes = (seconds: number): string => {
 	if(!seconds || seconds < 0) return '0:00';
 	const minutes = Math.floor(seconds / 60);
 
-	return `${
-		minutes
-			? minutes + ':'
-			: ''
-		}${seconds % 60 === 0 
-			? '' 
-			: addZero(seconds % 60)}`;
+	return `${minutes + ':'}${addZero(seconds % 60)}`;
 };
 
 
@@ -1208,3 +1202,18 @@ export const makePathArray = (path: string) => {
 	const cleanPathArray = removeEmpty(pathArray);
 	return cleanPathArray;
 };
+
+
+/**
+ * Function for parsing json, but avoiding crashes.
+ * @param {string} data Data to parse (should be a string)
+ * @returns {object | any} Object from parsed json, or same data as was passed.
+ */
+export const jsonParse = (data: string) => {
+	const result = tryCatch(() => JSON.parse(data));
+	if(isError(result)) return data;
+	return result;
+};
+
+
+

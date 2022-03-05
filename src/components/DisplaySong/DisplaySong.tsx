@@ -1,17 +1,17 @@
 /***** IMPORTS *****/
 import {FC} from 'react';
-import {ISong} from '../App';
+import {ISong} from 'types/IGeneral';
 import styles from './DisplaySong.module.scss';
 
 
 /**** TYPES *****/
 interface IDisplaySongProps {
-	song: ISong,
+	song?: ISong,
 }
 
 
 /***** COMPONENT-FUNCTION *****/
-const DisplaySong: FC<IDisplaySongProps> = ({song}) => {
+const DisplaySong: FC<IDisplaySongProps> = ({song = {}}) => {
 	
 	/*** Return-statement ***/
 	return (

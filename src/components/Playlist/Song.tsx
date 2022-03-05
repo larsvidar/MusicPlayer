@@ -1,8 +1,8 @@
 /***** IMPORTS *****/
-import {toMinutes} from 'components/actions';
-import {ISong} from 'components/App';
+import {toMinutes} from 'utils/actions';
 import {FC} from 'react';
 import styles from './Song.module.scss';
+import {ISong} from 'types/IGeneral';
 
 
 /***** TYPES *****/
