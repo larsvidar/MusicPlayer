@@ -1,5 +1,6 @@
 /***** IMPORTS *****/
-import {FC} from "react";
+import {FC} from 'react';
+import styles from './MenuButton.module.scss';
 
 
 /***** TYPES *****/
@@ -13,7 +14,9 @@ const MenuButton: FC<IMenuButtonProps> = ({onMenuClick}) => {
     
 	/*** Return-statement ***/
 	return(
-      <i className="fa fa-bars" onClick={onMenuClick} />
+		<div className={styles.MenuButton}>
+			<i className={styles.bars + ' fa fa-bars'} onClick={onMenuClick} />
+		</div>
     );
 }
 

@@ -1,0 +1,28 @@
+/***** PROGRESS component *****/
+.Progress {
+	padding: 1em 0;
+	
+	.time {
+		display: flex;
+		justify-content: space-between;
+		padding: 0 10px;
+		margin-bottom: -30px;
+	}
+  
+	.progressMeter {
+		margin: 0 auto 20px;
+		height: 5px;
+		width: 65%;
+		background-color: #aaa;
+
+		@media screen and (min-width: 535px) {
+			width: 80%;
+		}
+
+		.progress {
+			height: 100%;
+			width: 75%;
+			background-color: #a33; 
+		}
+	}
+}

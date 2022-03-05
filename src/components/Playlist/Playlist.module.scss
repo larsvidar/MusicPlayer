@@ -1,0 +1,45 @@
+/***** PLAYLIST-BOX component *****/
+.Playlist {
+  
+	.playlistTable {
+		width: 100%;
+		background-color: #112;
+		border-collapse: collapse;
+		text-align: left;
+
+		th, td {
+			border: solid 1px black;
+			padding: 5px;
+		}
+
+		tr {
+			&:nth-child(even) {
+				background-color: #223;
+			}
+		}
+		
+		.title {
+			min-width: 25%;
+			width: 50%;
+			max-width: 50%;
+		}
+	
+		.artist {
+			min-width: 20%;
+			width: 40%;
+			max-width: 20%;
+		}
+	
+		.duration {
+			min-width: 5%;
+			width: 10%;
+			max-width: 10%;
+		}
+
+		.edit {
+			min-width: 5%;
+			width: 8%;
+			max-width: 8%;
+		}
+	}
+}

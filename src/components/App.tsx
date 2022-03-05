@@ -1,15 +1,16 @@
 /***** IMPORTS *****/
-import Header from 'components/Header';
-import MenuButton from 'components/MenuButton';
-import AddSongForm from 'components/AddSongForm';
-import DisplaySong from 'components/DisplaySong';
-import Progress from 'components/Progress';
-import Controls from 'components/Controls';
-import PlayListBox from 'components/Playlist/PlayListBox';
+import Header from 'components/Header/Header';
+import MenuButton from 'components/MenuButton/MenuButton';
+import AddSongForm from 'components/AddSongForm/AddSongForm';
+import DisplaySong from 'components/DisplaySong/DisplaySong';
+import Progress from 'components/Progress/Progress';
+import Controls from 'components/Controls/Controls';
+import PlayListBox from 'components/Playlist/PlayList';
 import {useEffect, useRef, useState} from 'react';
 import initialPlaylist from 'components/initialSongs.json';
 import config from 'components/configData.json';
-import {forEach, genUid, getTimeoutObject} from './actions';
+import {genUid, getTimeoutObject} from './actions';
+import styles from './App.module.scss'
 
 /***** TYPES *****/
 export interface ISong {
@@ -177,32 +178,34 @@ const App = () => {
 
   	/*** Return-statement ***/
     return(
-		<div className='player'>
-			<Header title={config.title} />
-			<MenuButton onMenuClick={() => setShowMenu(!showMenu)} />
-			{showMenu &&
-				<AddSongForm menuStyle={{style: 'none'}} onSongSubmit={addSong} />
-			}
-			
-			<div className='controls'>
-				{!!song && 
-					<DisplaySong song={song} />
+		<div className={styles.App}>
+			<div className={styles.player}>
+				<Header title={config.title} />
+				<MenuButton onMenuClick={() => setShowMenu(!showMenu)} />
+				{showMenu &&
+					<AddSongForm onSongSubmit={addSong} />
 				}
 				
-				<Progress 
-					timePassed={playState.progress} 
-					timeLength={playState.duration} 
-					progressStyle={0} 
-				/>
+				<div className={styles.controls}>
+					{!!song && 
+						<DisplaySong song={song} />
+					}
+					
+					<Progress 
+						timePassed={playState.progress} 
+						timeLength={playState.duration} 
+						progressStyle={0} 
+					/>
 
-				<Controls
-					handlePlay={() => setIsPlaying(!isPlaying)}
-					handleNavigate={handleNavigate}
-					handleStop={handleStop}
-				 />
+					<Controls
+						handlePlay={() => setIsPlaying(!isPlaying)}
+						handleNavigate={handleNavigate}
+						handleStop={handleStop}
+					/>
 
-				<div className='playlist'>
-					<PlayListBox playlist={playlist} />
+					<div className={styles.playlist}>
+						<PlayListBox playlist={playlist} />
+					</div>
 				</div>
 			</div>
 		</div>

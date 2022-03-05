@@ -1,0 +1,35 @@
+/***** General styles *****/
+.App {
+	max-width: 640px;
+	position: relative;
+	margin: 0 auto;
+
+	/***** PLAYER *****/
+	.player {
+		background: #333;
+		width: 90%;
+		margin: 5% auto 2%;
+		border: solid 3px red;
+		border-radius: 50px 50px 0px 0px;
+	}
+
+	/***** CONTROLS *****/
+	.controls {
+		width: 90%;
+		background-color: #666;
+		margin: 0 auto 20px;
+		border: solid 1px white;
+		border-radius: 15px 15px 0px 0px;
+		color: #ccc;
+		text-align: center; 
+	}
+
+	/***** PLAYLIST ****/
+	.playlist {
+		margin: 0 auto 10px;
+		width: 95%;
+		height: 40vh;
+		overflow-x: hidden;
+		overflow-y: auto; 
+	}
+}

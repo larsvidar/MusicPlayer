@@ -1,5 +1,6 @@
 /***** IMPORTS *****/
 import {FC} from 'react';
+import styles from './Header.module.scss'
 
 
 /***** TYPES *****/
@@ -13,7 +14,7 @@ export const Header: FC<IHeaderProps> = ({title}) => {
 	
 	/*** Return-statement ***/
 	return (
-		<div className="header">
+		<div className={styles.Header}>
 			<h1>{title}</h1>
 		</div>
 	);

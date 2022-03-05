@@ -131,18 +131,17 @@ export const toHours = (minutes: number, loc?: genObject): string => {
  * @param {number} seconds to be converted.
  * @return {string} Formatted string (eg. 2m 5s)
  */
-export const toMinutes = (seconds: number, loc?: genObject): string => {
-	//Language locale
-	if(!loc) loc = {
-		secondsShort: 's',
-		minutesShort: 'm',
-	};
+export const toMinutes = (seconds: number): string => {
+	if(!seconds || seconds < 0) return '0:00';
+	const minutes = Math.floor(seconds / 60);
 
-	if(!seconds || seconds < 0) return '0 ' + loc.minutesShort;
-
-	return `${Math.floor(seconds / 60)
-		? Math.floor(seconds / 60) + loc.minutesShort + ' '
-		: ''}${seconds % 60 === 0 ? '' : seconds % 60 + loc.secondsShort}`;
+	return `${
+		minutes
+			? minutes + ':'
+			: ''
+		}${seconds % 60 === 0 
+			? '' 
+			: addZero(seconds % 60)}`;
 };
 
 

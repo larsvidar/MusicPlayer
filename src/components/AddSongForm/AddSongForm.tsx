@@ -1,16 +1,16 @@
 /***** IMPORTS *****/
-import {FC, SyntheticEvent, useState} from "react";
+import {FC, SyntheticEvent, useState} from 'react';
+import styles from './AddSongForm.module.scss'
 
 
 /***** TYPES *****/
 interface IAddSongFormProps {
-	menuStyle: object,
 	onSongSubmit: any,
 }
 
 
 /***** COMPONENT-FUNCTION *****/
-const AddSongForm: FC<IAddSongFormProps> = ({menuStyle, onSongSubmit}) => {
+const AddSongForm: FC<IAddSongFormProps> = ({onSongSubmit}) => {
 
 	const [formState, setFormState] = useState<any>({
 		songTitleValue: "",
@@ -50,7 +50,7 @@ const AddSongForm: FC<IAddSongFormProps> = ({menuStyle, onSongSubmit}) => {
 
 
 	return (
-		<div className="menu" style={menuStyle}>
+		<div className={styles.AddSongForm} >
 			<h3>Add a song</h3>
 			<form  onSubmit={addButton}>
 				<table>
@@ -60,7 +60,12 @@ const AddSongForm: FC<IAddSongFormProps> = ({menuStyle, onSongSubmit}) => {
 								<label htmlFor="title">Song title: </label>
 							</td>
 							<td>
-								<input type="text" id="title" value={formState.songTitleValue} onChange={onTitleChange} />
+								<input 
+									type="text" 
+									id="title" 
+									value={formState.songTitleValue} 
+									onChange={onTitleChange} 
+								/>
 							</td>
 						</tr>
 						<tr>
@@ -68,7 +73,12 @@ const AddSongForm: FC<IAddSongFormProps> = ({menuStyle, onSongSubmit}) => {
 								<label htmlFor="artist">Artist: </label>
 							</td>
 							<td>
-								<input type="text" id="artist" value={formState.artistValue} onChange={onArtistChange} />
+								<input 
+									type="text" 
+									id="artist" 
+									value={formState.artistValue} 
+									onChange={onArtistChange} 
+								/>
 							</td>
 						</tr>
 						<tr>
@@ -76,13 +86,22 @@ const AddSongForm: FC<IAddSongFormProps> = ({menuStyle, onSongSubmit}) => {
 								<label htmlFor="url">URL: </label>
 							</td>
 							<td>
-								<input type="text" id="url" value={formState.urlValue} onChange={onUrlChange} />
+								<input 
+									type="text" 
+									id="url" 
+									value={formState.urlValue} 
+									onChange={onUrlChange} 
+								/>
 							</td>
 						</tr>
 						<tr>
 							<td />
 							<td>
-								<input className="addSongButton" type="submit" value="Add song" />
+								<input 
+									className={styles.addSongButton} 
+									type="submit" 
+									value="Add song" 
+								/>
 							</td>
 						</tr>
 					</tbody>

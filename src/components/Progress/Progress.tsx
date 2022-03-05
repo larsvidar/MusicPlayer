@@ -1,5 +1,6 @@
 /***** IMPORTS *****/
-import {FC} from "react";
+import {FC} from 'react';
+import styles from './Progress.module.scss';
 
 
 /**** TYPES *****/
@@ -8,6 +9,7 @@ interface IProgressProps {
 	timeLength: number,
 	progressStyle: number,
 }
+
 
 /***** COMPONENT-FUNCTION *****/
 const Progress: FC<IProgressProps> = ({timePassed, timeLength, progressStyle}) => {
@@ -27,13 +29,13 @@ const Progress: FC<IProgressProps> = ({timePassed, timeLength, progressStyle}) =
 	if (!isNaN(timeLength)) {lengthSeconds = (timeLength % 60).toLocaleString(undefined, {minimumIntegerDigits: 2});}
 
 	return (
-		<div>
-			<div className="time">
+		<div className={styles.Progress}>
+			<div className={styles.time}>
 				<p>{passedMinutes}:{passedSeconds}</p>
 				<p>{lengthMinutes}:{lengthSeconds}</p>
 			</div>
-			<div className="progress-meter">
-				<div className="progress" style={lineStyle}>
+			<div className={styles.progressMeter}>
+				<div className={styles.progress} style={lineStyle}>
 				</div>
 			</div>
 		</div>

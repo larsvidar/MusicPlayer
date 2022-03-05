@@ -1,0 +1,26 @@
+ /***** CONTROLS component *****/
+.Controls {
+	margin: 0 auto 10%;
+	display: flex;
+	justify-content: space-between;
+	width: 80%;
+	text-shadow: 2px 2px 2px #222;
+	font-size: 32px;
+  
+	.button {
+		&:hover {
+			color: #fff;
+			transform: translate(-2px, -2px);
+			text-shadow: 4px 4px 4px #222; 
+		}
+
+		&:active {
+			transform: translate(2px, 2px);
+			text-shadow: 1px 1px 1px #222; 
+		}
+	}
+  
+  	i {
+		padding: 5px 15px 5px 10px; 
+	}
+}

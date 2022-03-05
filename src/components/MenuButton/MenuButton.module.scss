@@ -1,0 +1,21 @@
+/***** MENU-BUTTON component *****/
+.MenuButton {
+	
+	.bars {
+		padding: 5px 15px 5px 10px;
+
+		position: absolute;
+		top: 15px;
+		right: 15px;
+		color: white;
+		font-size: 32px;
+
+		@media screen and (min-width: 390px) {
+			right: 30px;
+		}
+	
+		@media screen and (min-width: 500px) {
+			right: 50px;
+		}
+	}
+}
