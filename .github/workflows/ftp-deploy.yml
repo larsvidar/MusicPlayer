@@ -34,7 +34,7 @@ jobs:
         USER: ${{ secrets.FTP_USER }}
         PASS: ${{ secrets.FTP_PASSWORD }}
       with:
-        server: "$env:HOST"
+        server: "${{ secrets.FTP_HOST }}"
         username: "$env:USER"
         password: "$env:PASS"
         server-dir: ./musicplayer/
