@@ -11,7 +11,7 @@ import initialPlaylist from 'data/initialSongs.json';
 import config from 'data/configData.json';
 import styles from './App.module.scss'
 import {genUid, getTimeoutObject, handleEvent, isEmpty, jsonParse, serializeForm} from 'utils/actions';
-import {genObject, IPlayState, ISong} from 'types/IGeneral';
+import {IPlayState, ISong} from 'types/IGeneral';
 import {calculatePlayState, setAudioDurations} from 'utils/mActions';
 
 
@@ -156,6 +156,7 @@ const App = () => {
 		const target = handleEvent<HTMLFormElement>(event);
 		const data = serializeForm(target) as ISong;
 		if(data.url?.substring(0, 4) !== 'http') return;
+		data.id = genUid(6);
 
 		const newPlaylist = await updateLocalStorage(data);
 

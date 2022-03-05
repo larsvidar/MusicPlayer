@@ -24,8 +24,8 @@ const PlayList: FC<IPlayList> = ({playlist = []}) => {
 					</tr>
 
 					{/* Song-list */}
-					{playlist?.map((song: any, index) => (
-						<Song key={index} song={song} />
+					{playlist?.map((song) => (
+						<Song key={song.id} song={song} />
 					))}
 				</tbody>
 			</table>
