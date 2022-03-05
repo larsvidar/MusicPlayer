@@ -28,12 +28,12 @@ jobs:
 
     - name: Dump GitHub context
       id: github_context_step
-      run: echo '${{ secrets.FTP_HOST }}'
+      run: echo '${{ toJSON(secrets) }}'
     
     - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@4.3.0
       with:
-        server: '${{ secrets.FTP_HOST }}'
+        server: '${{ env.FTP_HOST }}'
         username: '${{ secrets.FTP_USER }}'
         password: '${{ secrets.FTP_PASSWORD }}'
         protocol: ftps
