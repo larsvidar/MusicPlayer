@@ -25,11 +25,6 @@ jobs:
       run: |
         npm install
         npm run build
-
-    - name: Dump GitHub context
-      id: github_context_step
-      run: echo '${{ toJSON(secrets) }}'
-    
     - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@4.3.0
       env: 
@@ -37,8 +32,8 @@ jobs:
         USER: ${{ secrets.FTP_USER }}
         PASS: ${{ secrets.FTP_PASSWORD }}
       with:
-        server: '$HOST'
-        username: '$USER'
-        password: '$PASS'
+        server: $HOST
+        username: $USER
+        password: $PASS
         protocol: ftps
         port: 22
