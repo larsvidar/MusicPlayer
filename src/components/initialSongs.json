@@ -1,11 +1,5 @@
 [
 	{
-		"id": 0,
-		"songTitle": "",
-		"artist": "",
-		"duration": 0,
-		"url": "#"
-	},{
 		"id": 1,
 		"songTitle": "A Kind Of Magic",       
 		"artist": "Queen",            
@@ -41,12 +35,6 @@
 		"artist": "Blondie",          
 		"duration": 0,	
 		"url": "http://dora-robo.com/muzyka/70's-80's-90's%20/Blondie%20-%20Heart%20of%20Glass.mp3"
-	},{
-		"id": 7,
-		"songTitle": "End Game",              
-		"artist": "Taylor Swift",     
-		"duration": 0,	
-		"url": "http://s1.mmdl.xyz/1396/08/18/Taylor%20Swift%20-%20Reputation/2%20End%20Game.mp3"
 	},{
 		"id": 8,
 		"songTitle": "Ma Baker",              

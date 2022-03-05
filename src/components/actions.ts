@@ -636,6 +636,7 @@ export const getTimeoutObject = (): genObject => {
 			Object.keys(this).forEach((key: string) => {
 				if(key !== 'clearAll') {
 					clearTimeout(this[key]);
+					clearInterval(this[key]);
 					delete this[key];
 				}
 			});

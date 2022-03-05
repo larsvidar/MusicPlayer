@@ -6,10 +6,10 @@ import DisplaySong from 'components/DisplaySong';
 import Progress from 'components/Progress';
 import Controls from 'components/Controls';
 import PlayListBox from 'components/Playlist/PlayListBox';
-import {useEffect, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import initialPlaylist from 'components/initialSongs.json';
 import config from 'components/configData.json';
-import {genUid} from './actions';
+import {forEach, genUid, getTimeoutObject} from './actions';
 
 /***** TYPES *****/
 export interface ISong {
@@ -31,10 +31,12 @@ interface IPlayState {
 const App = () => {
 
 	/*** Variables ***/
-	const audio = new Audio();
+	const audio = useRef(new Audio());
+	const timeouts = getTimeoutObject();
 
 	/*** State ***/
 	const [playlist, setPlaylist] = useState(initialPlaylist as unknown as ISong[]);
+	const [isPlaying, setIsPlaying] = useState(false);
 	const [playState, setNativePlayState] = useState<IPlayState>({
 		isPlaying: false,
 		progress: 0,
@@ -42,26 +44,64 @@ const App = () => {
 		currentTime: 0,
 	});
 	const [showMenu, setShowMenu] = useState(false);
-	const [song, setSong] = useState({} as ISong);
+	const [song, setSong] = useState(playlist[0]);
 
 
 	/*** Effects ***/
-	//Makes sure the song-timer updates regularly.
-	useEffect(() => {
-		const interval = setInterval(updatePlayState, 100);
-		audio.addEventListener("ended", function() {
-			navigate(1);
-		});
 
-		//Cleanup
+	//Cleanup
+	useEffect(() => {
 		// Clears interval if unmounted
 		return () => {
-			clearInterval(interval);
+			timeouts.clearAll();
 		}
+	}, []);
+
+	//Makes sure the song-timer updates regularly.
+	useEffect(() => {
+		//const interval = setInterval(updatePlayState, 100);
+		audio.current.addEventListener("ended", () => navigate(1));
 	}, [audio]);
+
+	useEffect(() => {
+		audio.current.src = song.url;
+		if(isPlaying) audio.current.play();
+		else audio.current.pause();
+	}, [song]);
+
+
+	useEffect(() => {
+		if(isPlaying) {
+			timeouts.playing = setInterval(updatePlayState, 100);
+			audio.current.play();
+		} else {
+			clearInterval(timeouts.playing);
+			audio.current.pause();
+		}
+	}, [isPlaying]);
+
+
+	useEffect(() => {
+		  //Make a new array which includes the duration of the songs.
+		  const newSongsArray = setDurations(playlist);
+		  setPlaylist(newSongsArray);
+	}, [playlist]);
 
 
 	/*** Functions ***/
+
+	const setDurations = (songsArray: ISong[]) => {
+		for (let i = 1; i < songsArray.length; i++) {
+			const tempAudio = new Audio();
+			tempAudio.src = songsArray[i].url;
+			tempAudio.load();
+			tempAudio.onloadedmetadata = () => {
+				songsArray[i].duration = Math.floor(tempAudio.duration);
+			}
+		}
+		return songsArray;
+	}
+
 	const setPlayState = (data: IPlayState) => {
 		setNativePlayState((prevPlayState) => {
 			return {...prevPlayState, ...data};
@@ -72,11 +112,25 @@ const App = () => {
 	//Updates song timers.
 	const updatePlayState = () => {
 		setPlayState({
-			isPlaying: !audio.paused,
-			duration: Math.floor(audio.duration),
-			currentTime: Math.floor(audio.currentTime),
-			progress: ((100 / audio.duration) * audio.currentTime ),
+			isPlaying: !audio.current.paused,
+			duration: Math.floor(audio.current.duration || 0),
+			currentTime: Math.floor(audio.current.currentTime || 0),
+			progress: ((100 / audio.current.duration) * audio.current.currentTime) || 0,
 		});
+	}
+
+	const handleNavigate = (factor = 1) => {
+		const currentIndex = playlist.findIndex((thisSong) => thisSong.id === song.id);
+		let newIndex = currentIndex + factor;
+		if(newIndex >= playlist.length) newIndex -= playlist.length;
+		if(newIndex < 0) newIndex = (playlist.length + newIndex);
+
+		setSong(playlist[newIndex]);
+	};
+
+	const handleStop = () => {
+		setIsPlaying(false);
+		setPlayState({isPlaying: false, progress: 0} as IPlayState);
 	}
 
 	//Adds song to playlist from AddSongForm.
@@ -96,22 +150,14 @@ const App = () => {
 
 	//Handles the skip forward and skip backward buttons.
 	const navigate = (diff: number) => {
-		audio.src = playlist[0].url;
+		audio.current.src = playlist[0].url;
 	};
 
-
-	//Handles the play button.
-	const onPlayButton = () => {
-		setPlayState({isPlaying: true} as IPlayState);
-		audio.src = playlist[0].url;
-
-		audio.play();
-	}
 
 	//Handles the pause button.
 	const onPauseButton = () => {
 		setPlayState({isPlaying: false} as IPlayState);
-		audio.pause();
+		audio.current.pause();
 	};
 
 	
@@ -122,9 +168,11 @@ const App = () => {
 			progress: 0,
 		} as IPlayState);
 			
-		audio.pause()
-		audio.src = '';
+		audio.current.pause()
+		audio.current.src = '';
 	};
+
+	console.log(audio.current.src)
 
 
   	/*** Return-statement ***/
@@ -148,14 +196,10 @@ const App = () => {
 				/>
 
 				<Controls
-					onBack={navigate}
-					onPlay={onPlayButton}
-					onPause={onPauseButton}
-					onForward={navigate}
-					onStop={onStopButton}
-					playStyle={{style: 'none'}}
-					pauseStyle={{style: 'none'}}
-				/>
+					handlePlay={() => setIsPlaying(!isPlaying)}
+					handleNavigate={handleNavigate}
+					handleStop={handleStop}
+				 />
 
 				<div className='playlist'>
 					<PlayListBox playlist={playlist} />
