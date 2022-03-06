@@ -21,6 +21,7 @@ const App = () => {
 	/*** Variables ***/
 	const audio = useRef(new Audio());
 	const timeouts = useRef(getTimeoutObject());
+	const isPlayActive = useRef(false);
 
 
 	/*** State ***/
@@ -65,11 +66,11 @@ const App = () => {
 	//Runs when playlist- or song-state is updated
 	//	-If no song is selected, select first song in playlist.
 	useEffect(() => {
+		audio.current.pause()
 		if(!isEmpty(song)) {
 			audio.current.src = song.url;
 
 			if(isPlaying) audio.current.play();
-			else audio.current.pause();
 		} else {
 			audio.current.src = '';
 			setIsPlaying(false);
