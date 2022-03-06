@@ -14,7 +14,6 @@ interface ISongProps {
 
 /***** COMPONENT-FUNCTION *****/
 const Song: FC<ISongProps> = ({song, deleteSong}) => {
-	console.log(song)
 
 	/*** Variables ***/
 	const minutes = toMinutes(song.duration);
