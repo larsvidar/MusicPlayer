@@ -41,5 +41,5 @@ jobs:
         username: ${{ secrets.FTP_USER }}
         password: ${{ secrets.FTP_PASSWORD }}
         server-dir: ./musicplayer/
-        protocol: sftp
+        protocol: ftps-legacy
         port: 22
