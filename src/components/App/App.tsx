@@ -78,6 +78,10 @@ const App = () => {
 		updatePlayState();
 	}, [playlist, song]); //eslint-disable-line
 
+	useEffect(() => {
+		if(playlist.length) markActiveSong(song);
+	}, [song]);
+
 
 	//Sets ended-event-listener
 	//	-Makes sure the player loads next song when current song is finished.
@@ -102,6 +106,19 @@ const App = () => {
 
 
 	/*** Functions ***/
+
+	/**
+	 * Iterates through playlist and marks current song as active
+	 * @param song Song to mark as active
+	 */
+	const markActiveSong = (song: ISong) => {
+		setPlaylist((prevPlaylist) => {
+			const newPlaylist = prevPlaylist.map((thisSong) => {
+				return {...thisSong, isActive: thisSong.id === song.id};
+			});
+			return newPlaylist;
+		});
+	};
 
 	/**
 	 * Fetches playlist from localStorage, adds song, and writes it back.

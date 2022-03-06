@@ -46,6 +46,7 @@ export interface ISong {
 	artist: string,
 	duration: number,
 	url: string,
+	isActive?: boolean,
 };
 
 export interface IPlayState {
