@@ -5,7 +5,6 @@ import AddSongForm from 'components/AddSongForm/AddSongForm';
 import DisplaySong from 'components/DisplaySong/DisplaySong';
 import Progress from 'components/Progress/Progress';
 import Controls from 'components/Controls/Controls';
-import PlayListBox from 'components/Playlist/PlayList';
 import {SyntheticEvent, useEffect, useRef, useState} from 'react';
 import initialPlaylist from 'data/initialSongs.json';
 import config from 'data/configData.json';
@@ -13,6 +12,7 @@ import styles from './App.module.scss'
 import {genUid, getTimeoutObject, handleEvent, isEmpty, jsonParse, serializeForm} from 'utils/actions';
 import {IPlayState, ISong} from 'types/IGeneral';
 import {calculatePlayState, setAudioDurations} from 'utils/mActions';
+import PlayList from 'components/Playlist/PlayList';
 
 
 /***** COMPONENT-FUNCTION *****/
@@ -103,10 +103,25 @@ const App = () => {
 
 	/*** Functions ***/
 
-	const updateLocalStorage = async (song: ISong) => {
+	/**
+	 * Fetches playlist from localStorage, adds song, and writes it back.
+	 * @param song THe song object to be added.
+	 */
+	const addToLocalStorage = async (song: ISong) => {
 		const [newSong] = await setAudioDurations([song]);
 		const savedPlaylist: ISong[] = jsonParse(localStorage.playlist);
 		const newPlaylist = [...(savedPlaylist || []), newSong];
+		localStorage.playlist = JSON.stringify(newPlaylist);
+		return newPlaylist;
+	}
+
+	/**
+	 * Fetches playlist from localStorage, removes song, and writes it back.
+	 * @param song THe song object to be added.
+	 */
+	const removeFromLocalStorage = async (songId: string) => {
+		const savedPlaylist: ISong[] = jsonParse(localStorage.playlist);
+		const newPlaylist = savedPlaylist.filter((song) => song.id !== songId);
 		localStorage.playlist = JSON.stringify(newPlaylist);
 		return newPlaylist;
 	}
@@ -145,23 +160,39 @@ const App = () => {
 	};
 
 
+	/**
+	 * Stops song and clears all progress.
+	 */
 	const handleStop = () => {
 		setIsPlaying(false);
 		setPlayState({isPlaying: false, progress: 0, currentTime: 0} as IPlayState);
 		audio.current.currentTime = 0;
 	}
 
-	//Adds song to playlist from AddSongForm.
+	/**
+	 * Adds song to playlist from AddSongForm.
+	 * @param event Event-object from form submit. 
+	 */
 	const addSong = async (event: SyntheticEvent) => {
 		const target = handleEvent<HTMLFormElement>(event);
 		const data = serializeForm(target) as ISong;
 		if(data.url?.substring(0, 4) !== 'http') return;
 		data.id = genUid(6);
 
-		const newPlaylist = await updateLocalStorage(data);
+		const newPlaylist = await addToLocalStorage(data);
 
 		setPlaylist(newPlaylist);
 		setShowMenu(false);
+	};
+
+
+	/**
+	 * Deletes song from playlist and localStorage
+	 * @param songId Id of song to delete.
+	 */
+	const deleteSong = async (songId: string) => {
+		const newPlaylist = await removeFromLocalStorage(songId);
+		setPlaylist(newPlaylist);
 	};
 
 
@@ -172,7 +203,10 @@ const App = () => {
 				<Header title={config.title} />
 				<MenuButton onMenuClick={() => setShowMenu(!showMenu)} />
 				{showMenu &&
-					<AddSongForm handleAdd={addSong} />
+					<AddSongForm 
+						handleAdd={addSong}
+						closeBox={() => setShowMenu(false)}
+					/>
 				}
 				
 				<div className={styles.controls}>
@@ -188,7 +222,10 @@ const App = () => {
 					/>
 
 					<div className={styles.playlist}>
-						<PlayListBox playlist={playlist} />
+						<PlayList
+							playlist={playlist}
+							deleteSong={deleteSong} 
+						/>
 					</div>
 				</div>
 			</div>
