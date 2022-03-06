@@ -1,6 +1,6 @@
 /***** IMPORTS *****/
 import {FC} from 'react';
-import Song from './Song';
+import Song from './Song/Song';
 import styles from './Playlist.module.scss';
 import {FSingleVoid, ISong} from 'types/IGeneral';
 
@@ -12,6 +12,8 @@ interface IPlayList {
 
 /***** FUNCTION-COMPONENT *****/
 const PlayList: FC<IPlayList> = ({playlist = [], deleteSong}) => {
+
+	/*** Return-statement ***/
 	return (
 		<div className={styles.Playlist} >
 			<table className={styles.playlistTable}>

@@ -14,13 +14,15 @@ interface ISongProps {
 
 /***** COMPONENT-FUNCTION *****/
 const Song: FC<ISongProps> = ({song, deleteSong}) => {
+	console.log(song)
 
 	/*** Variables ***/
 	const minutes = toMinutes(song.duration);
+	const songClass = `${styles.Song} ${song.isActive ? styles.active : ''}`;
 	
 	/*** Return-statement ***/
 	return (
-		<tr className={styles.Song}>
+		<tr className={songClass}>
 			<td><p title={song.songTitle} >{song.songTitle}</p></td>
 			<td><p title={song.artist} >{song.artist}</p></td>
 			<td><p className={styles.duration} title={minutes} >{minutes}</p></td>
