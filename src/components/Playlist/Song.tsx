@@ -2,16 +2,18 @@
 import {toMinutes} from 'utils/actions';
 import {FC} from 'react';
 import styles from './Song.module.scss';
-import {ISong} from 'types/IGeneral';
+import {FSingleVoid, ISong} from 'types/IGeneral';
+import {BsTrash} from 'react-icons/bs'
 
 
 /***** TYPES *****/
 interface ISongProps {
 	song: ISong,
+	deleteSong: FSingleVoid<string>
 }
 
 /***** COMPONENT-FUNCTION *****/
-const Song: FC<ISongProps> = ({song}) => {
+const Song: FC<ISongProps> = ({song, deleteSong}) => {
 
 	/*** Variables ***/
 	const minutes = toMinutes(song.duration);
@@ -22,7 +24,9 @@ const Song: FC<ISongProps> = ({song}) => {
 			<td><p title={song.songTitle} >{song.songTitle}</p></td>
 			<td><p title={song.artist} >{song.artist}</p></td>
 			<td><p className={styles.duration} title={minutes} >{minutes}</p></td>
-			<td className={styles.edit} title={'Edit'} ><i className={'fa fa-edit'} /></td>
+			<td className={styles.edit} title={'Edit'} onClick={() => deleteSong(song.id)} >
+				<BsTrash />
+			</td>
 		</tr>
 	);
 }

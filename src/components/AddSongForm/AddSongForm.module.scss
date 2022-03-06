@@ -28,13 +28,26 @@
 		width: 45vw;
 		max-width: 350px;
 		margin: .3em 0;
+		padding: 2px 5px;
 	}
 
-	.addSongButton {
-		width: 100px;
-		border: solid 1px #ddd;
-		border-radius: 5px;
-		margin: .5em 0;
+	.buttons {
+		display: flex;
+		width: 100%;
+
+		.button {
+			width: auto;
+			height: auto;
+			border: solid 1px #ddd;
+			border-radius: 5px;
+			margin: .5em 1em .5em 0;
+			padding: 5px 10px;
+			cursor: pointer;
+		}
+
+		.cancel {
+			color: #333;
+		}
 	}
 }
 	

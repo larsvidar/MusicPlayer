@@ -1,16 +1,18 @@
 /***** IMPORTS *****/
 import {FC} from 'react';
+import {FEmpty} from 'types/IGeneral';
 import styles from './AddSongForm.module.scss'
 
 
 /***** TYPES *****/
 interface IAddSongFormProps {
 	handleAdd: any,
+	closeBox: FEmpty,
 }
 
 
 /***** COMPONENT-FUNCTION *****/
-const AddSongForm: FC<IAddSongFormProps> = ({handleAdd}) => {
+const AddSongForm: FC<IAddSongFormProps> = ({handleAdd, closeBox}) => {
 
 
 	/*** Return-statement ***/
@@ -58,12 +60,20 @@ const AddSongForm: FC<IAddSongFormProps> = ({handleAdd}) => {
 						</tr>
 						<tr>
 							<td />
-							<td>
+							<td className={styles.buttons}>
 								<input 
-									className={styles.addSongButton} 
+									className={styles.button} 
 									type='submit' 
 									value='Add song' 
 								/>
+								<td>
+									<button 
+										className={styles.button + ' ' + styles.cancel} 
+										onClick={closeBox}
+									>
+										Cancel
+									</button>
+								</td>
 							</td>
 						</tr>
 					</tbody>

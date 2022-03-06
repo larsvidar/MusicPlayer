@@ -2,15 +2,16 @@
 import {FC} from 'react';
 import Song from './Song';
 import styles from './Playlist.module.scss';
-import {ISong} from 'types/IGeneral';
+import {FSingleVoid, ISong} from 'types/IGeneral';
 
 /**** TYPES *****/
 interface IPlayList {
 	playlist: ISong[],
+	deleteSong: FSingleVoid<string>,
 }
 
 /***** FUNCTION-COMPONENT *****/
-const PlayList: FC<IPlayList> = ({playlist = []}) => {
+const PlayList: FC<IPlayList> = ({playlist = [], deleteSong}) => {
 	return (
 		<div className={styles.Playlist} >
 			<table className={styles.playlistTable}>
@@ -20,12 +21,12 @@ const PlayList: FC<IPlayList> = ({playlist = []}) => {
 						<th className={styles.title} ><p>Title</p></th>
 						<th className={styles.artist} ><p>Artist</p></th>
 						<th className={styles.duration} ><p>Duration</p></th>
-						<th className={styles.edit} ><p>Edit</p></th>
+						<th className={styles.edit} />
 					</tr>
 
 					{/* Song-list */}
 					{playlist?.map((song) => (
-						<Song key={song.id} song={song} />
+						<Song key={song.id} song={song} deleteSong={deleteSong} />
 					))}
 				</tbody>
 			</table>
