@@ -29,7 +29,7 @@ jobs:
         npm run build
     - name: Check secrets
       run: |
-        echo ${{secrets.FTP_HOST}} 
+        echo HOST: ${{secrets.FTP_HOST}} 
     - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@4.3.0
       env: 
@@ -37,9 +37,9 @@ jobs:
         USER: ${{ secrets.FTP_USER }}
         PASS: ${{ secrets.FTP_PASSWORD }}
       with:
-        server: "${{ secrets.FTP_HOST }}"
-        username: "${{ secrets.FTP_USER }}"
-        password: "${{ secrets.FTP_PASSWORD }}"
+        server: ${{ secrets.FTP_HOST }}
+        username: ${{ secrets.FTP_USER }}
+        password: ${{ secrets.FTP_PASSWORD }}
         server-dir: ./musicplayer/
-        protocol: ftps
+        protocol: sftp
         port: 22
