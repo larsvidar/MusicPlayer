@@ -22,7 +22,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+	"apibuild": "dir src && (xcopy /E /I /R /Y src\\api public\\api  || cp -r src/api public/api) && npm run build && (rmdir /s /q public\\api || rm -rf public/api || echo 'No .api-folder')"
   },
   "eslintConfig": {
     "extends": [
