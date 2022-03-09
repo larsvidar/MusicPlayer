@@ -70,7 +70,7 @@ const App = () => {
 		if(!isEmpty(song)) {
 			audio.current.src = song.url;
 
-			if(isPlaying) audio.current.play();
+			if(isPlaying) play();
 		} else {
 			audio.current.src = '';
 			setIsPlaying(false);
@@ -97,7 +97,7 @@ const App = () => {
 	useEffect(() => {
 		if(isPlaying) {
 			timeouts.current.playing = setInterval(updatePlayState, 250);
-			audio.current.play();
+			play();
 		} else {
 			setPlayState({isPlaying: false} as IPlayState);
 			clearInterval(timeouts.current.playing);
@@ -107,6 +107,14 @@ const App = () => {
 
 
 	/*** Functions ***/
+
+	const play = () => {
+		audio.current.play().then(() => {/*Empty*/}).catch((error) => {
+			if(!error.message.includes('request was interrupted by a call to pause')) {
+				console.log('Play-error: ', error.message);
+			}
+		});
+	}
 
 	/**
 	 * Iterates through playlist and marks current song as active
