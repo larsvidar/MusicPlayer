@@ -10,24 +10,26 @@
 		display: flex;
 		justify-content: space-between;
 		width: 100%;
-		padding: 0 10px;
-		margin-bottom: -30px;
+
+		.progressMeter {
+			margin: 6px 3%;
+			height: 7px;
+			width: 100%;
+			border-radius: 3px;
+			background-color: #aaa;
+	
+			@media screen and (min-width: 535px) {
+				//width: 80%;
+			}
+	
+			.progress {
+				height: 100%;
+				width: 75%;
+				border-radius: 3px 0 0 3px;
+				background-color: #a33; 
+			}
+		}
 	}
   
-	.progressMeter {
-		margin: 1em auto 0;
-		height: 5px;
-		width: 65%;
-		background-color: #aaa;
 
-		@media screen and (min-width: 535px) {
-			width: 80%;
-		}
-
-		.progress {
-			height: 100%;
-			width: 75%;
-			background-color: #a33; 
-		}
-	}
 }

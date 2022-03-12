@@ -25,10 +25,10 @@ const Progress: FC<IProgressProps> = ({playState}) => {
 		<div className={styles.Progress}>
 			<div className={styles.time}>
 				<p>{passedMinutes}</p>
+				<div className={styles.progressMeter}>
+					<div className={styles.progress} style={lineStyle} />
+				</div>
 				<p>{duration}</p>
-			</div>
-			<div className={styles.progressMeter}>
-				<div className={styles.progress} style={lineStyle} />
 			</div>
 		</div>
 	);

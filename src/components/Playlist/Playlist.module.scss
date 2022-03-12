@@ -3,6 +3,7 @@
   
 	.playlistTable {
 		width: 100%;
+		max-width: 100%;
 		background-color: #112;
 		border-collapse: collapse;
 		text-align: left;
@@ -10,6 +11,9 @@
 		th, td {
 			border: solid 1px black;
 			padding: 5px;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			white-space: nowrap;
 		}
 
 		tr {

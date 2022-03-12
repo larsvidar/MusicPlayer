@@ -14,22 +14,15 @@
 	}
 
 	/***** CONTROLS *****/
-	.controls {
+	.content {
 		width: 90%;
+		overflow: hidden;
 		background-color: #666;
 		margin: 0 auto 20px;
+		padding: 1em;
 		border: solid 1px white;
 		border-radius: 15px 15px 0px 0px;
 		color: #ccc;
 		text-align: center; 
-	}
-
-	/***** PLAYLIST ****/
-	.playlist {
-		margin: 0 auto 10px;
-		width: 95%;
-		height: 40vh;
-		overflow-x: hidden;
-		overflow-y: auto; 
 	}
 }

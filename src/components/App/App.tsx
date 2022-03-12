@@ -226,7 +226,7 @@ const App = () => {
 					/>
 				}
 				
-				<div className={styles.controls}>
+				<div className={styles.content}>
 					<CurrentSong song={song} />
 					
 					<Progress playState={playState} />
