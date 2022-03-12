@@ -3,7 +3,7 @@
 A simple jukebox that takes urls to audio-files and ands them to a playlist.
 The playlist is saved to localStorage.
 
-A working version of the app is running on [larsvidar.no/musicplayer](https://larsvidar.no/musicplayer);
+A working version of the app is running on [larsvidar.no/musicplayer](http://larsvidar.no/musicplayer);
 
 *To start app run:*
 ### `yarn start`

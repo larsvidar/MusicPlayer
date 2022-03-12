@@ -1,21 +1,21 @@
 /***** IMPORTS *****/
 import {FC} from 'react';
 import {ISong} from 'types/IGeneral';
-import styles from './DisplaySong.module.scss';
+import styles from './CurrentSong.module.scss';
 
 
 /**** TYPES *****/
-interface IDisplaySongProps {
+interface ICurrentSongProps {
 	song?: ISong,
 }
 
 
 /***** COMPONENT-FUNCTION *****/
-const DisplaySong: FC<IDisplaySongProps> = ({song = {}}) => {
+const CurrentSong: FC<ICurrentSongProps> = ({song = {}}) => {
 	
 	/*** Return-statement ***/
 	return (
-		<div className={styles.DisplaySong}>
+		<div className={styles.CurrentSong}>
 			<p>{song.artist} - {song.songTitle}</p>
 		</div>
 	);
@@ -23,4 +23,4 @@ const DisplaySong: FC<IDisplaySongProps> = ({song = {}}) => {
 
 
 /***** EXPORTS *****/
-export default DisplaySong;
+export default CurrentSong;

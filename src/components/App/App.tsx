@@ -2,16 +2,16 @@
 import Header from 'components/Header/Header';
 import MenuButton from 'components/MenuButton/MenuButton';
 import AddSongForm from 'components/AddSongForm/AddSongForm';
-import DisplaySong from 'components/DisplaySong/DisplaySong';
+import CurrentSong from 'components/CurrentSong/CurrentSong';
 import Progress from 'components/Progress/Progress';
 import Controls from 'components/Controls/Controls';
 import {SyntheticEvent, useEffect, useRef, useState} from 'react';
 import initialPlaylist from 'data/initialSongs.json';
 import config from 'data/configData.json';
 import styles from './App.module.scss'
-import {genUid, getTimeoutObject, handleEvent, isEmpty, jsonParse, serializeForm} from 'utils/actions';
+import {genUid, getTimeoutObject, handleEvent, isEmpty, isError, jsonParse, serializeForm} from 'utils/actions';
 import {IPlayState, ISong} from 'types/IGeneral';
-import {calculatePlayState, setAudioDurations} from 'utils/mActions';
+import {addToLocalStorage, calculatePlayState, removeFromLocalStorage, songProtocolCheck} from 'utils/mActions';
 import PlayList from 'components/Playlist/PlayList';
 
 
@@ -21,7 +21,6 @@ const App = () => {
 	/*** Variables ***/
 	const audio = useRef(new Audio());
 	const timeouts = useRef(getTimeoutObject());
-	const isPlayActive = useRef(false);
 
 
 	/*** State ***/
@@ -44,23 +43,24 @@ const App = () => {
 	//	-Cleanup
 	useEffect(() => {
 		if(!localStorage.playlist) {
-			setAudioDurations(initialPlaylist as unknown as ISong[]).then((result: ISong[]) => {
-				localStorage.playlist = JSON.stringify(result, null, 4);
-				setSong(result[0]);
-				setPlaylist(result)
-			});
+			addToLocalStorage(initialPlaylist as unknown as ISong[])
+				.then((newPlayList: ISong[]) => {
+					setSong(newPlayList[0]);
+					setPlaylist(newPlayList)
+				});
 		} else {
 			const savedPlaylist: ISong[] = jsonParse(localStorage.playlist);
 			setPlaylist(savedPlaylist);
 			setSong(savedPlaylist[0])
 		}
 
-		const tempTimeout = timeouts.current;
+		
 		// Clears interval if unmounted
+		const tempTimeout = timeouts.current;
 		return () => {
 			tempTimeout.clearAll();
 		}
-	}, []); //eslint-disable-line
+	}, []);
 
 
 	//Runs when playlist- or song-state is updated
@@ -79,9 +79,10 @@ const App = () => {
 		updatePlayState();
 	}, [playlist, song]); //eslint-disable-line
 
+
 	useEffect(() => {
 		if(playlist.length) markActiveSong(song);
-	}, [song]);
+	}, [song, playlist.length]);
 
 
 	//Sets ended-event-listener
@@ -129,28 +130,6 @@ const App = () => {
 		});
 	};
 
-	/**
-	 * Fetches playlist from localStorage, adds song, and writes it back.
-	 * @param song THe song object to be added.
-	 */
-	const addToLocalStorage = async (song: ISong) => {
-		const [newSong] = await setAudioDurations([song]);
-		const savedPlaylist: ISong[] = jsonParse(localStorage.playlist);
-		const newPlaylist = [...(savedPlaylist || []), newSong];
-		localStorage.playlist = JSON.stringify(newPlaylist);
-		return newPlaylist;
-	}
-
-	/**
-	 * Fetches playlist from localStorage, removes song, and writes it back.
-	 * @param song THe song object to be added.
-	 */
-	const removeFromLocalStorage = async (songId: string) => {
-		const savedPlaylist: ISong[] = jsonParse(localStorage.playlist);
-		const newPlaylist = savedPlaylist.filter((song) => song.id !== songId);
-		localStorage.playlist = JSON.stringify(newPlaylist);
-		return newPlaylist;
-	}
 
 	/**
 	 * Setter for playState. Makes sure one setting dont overwrite other settings.
@@ -195,6 +174,7 @@ const App = () => {
 		audio.current.currentTime = 0;
 	}
 
+
 	/**
 	 * Adds song to playlist from AddSongForm.
 	 * @param event Event-object from form submit. 
@@ -202,14 +182,25 @@ const App = () => {
 	const addSong = async (event: SyntheticEvent) => {
 		const target = handleEvent<HTMLFormElement>(event);
 		const data = serializeForm(target) as ISong;
-		if(data.url?.substring(0, 4) !== 'http') return;
-		data.id = genUid(6);
-
-		const newPlaylist = await addToLocalStorage(data);
+		const song = processSong(data);
+		if(isError(song)) return console.log(song.message);
+		
+		const newPlaylist = await addToLocalStorage(song);
 
 		setPlaylist(newPlaylist);
 		setShowMenu(false);
 	};
+
+
+	const processSong = (song: ISong) => {
+		song.id = genUid(6);
+
+		const protocolCheck = songProtocolCheck(song);
+		if(isError(protocolCheck)) return protocolCheck;
+		return song;
+	}
+
+
 
 
 	/**
@@ -236,7 +227,7 @@ const App = () => {
 				}
 				
 				<div className={styles.controls}>
-					<DisplaySong song={song} />
+					<CurrentSong song={song} />
 					
 					<Progress playState={playState} />
 
