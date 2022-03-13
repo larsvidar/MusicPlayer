@@ -1,11 +1,11 @@
  /***** CONTROLS component *****/
 .Controls {
-	margin: 0 auto .5em;
+	margin: 0 auto .2em;
 	display: flex;
 	justify-content: space-between;
 	width: 100%;
 	text-shadow: 6px 6px 6px #222; 
-	font-size: 3em;
+	font-size: 2em;
   
 	.button {
 		&:hover {

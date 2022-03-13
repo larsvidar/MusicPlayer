@@ -3,6 +3,30 @@
 	.bars {
 		margin: 5px 0 0;
 		color: white;
-		font-size: 32px;
+		font-size: 20px;
+
+		@media(min-width: 300px) {
+			font-size: 9vw;
+		}
+
+		@media(min-width: 400px) {
+			font-size: 8vw;
+			margin-right: 5px;
+		}
+
+		@media (min-width: 600px) {
+			font-size: 7vw;
+			margin-right: 10px;
+		}
+
+		@media (min-width: 800px) {
+			font-size: 5.5vw;
+			margin-right: 15px;
+		}
+
+		@media (min-width: 1000px) {
+			font-size: 3em;
+			margin-right: 20px;
+		}
 	}
 }
