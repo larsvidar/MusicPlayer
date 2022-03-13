@@ -1,5 +1,4 @@
 .Song {
-
 	p {
 		white-space: nowrap;
 		overflow: hidden;
@@ -12,13 +11,11 @@
 	}
 
 	.edit {
-		// display: flex;
-		// justify-content: center;
-		// align-items: center;
+		width: 100%;
 		cursor: pointer;
-		//min-height: 31px;
-		padding: 3px 0 0;
 		font-size: 13px;
+		text-align: center;
+		padding: 3px 0 0;
 	}
 }
 
