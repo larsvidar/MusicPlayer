@@ -2,7 +2,7 @@
 .Header {
 	display: flex;
 	justify-content: space-between;
-	margin: 1em 30px;
+	margin: .7em 25px;
 
 	h1 {
 		color: white;
@@ -10,5 +10,7 @@
 		align-self: center;
 		text-align: center;
 		margin: 0 auto;
+		white-space: nowrap;
+		font-size: 1.8em;
 	}
 }

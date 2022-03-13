@@ -22,10 +22,10 @@ const Song: FC<ISongProps> = ({song, deleteSong}) => {
 	/*** Return-statement ***/
 	return (
 		<tr className={songClass}>
-			<td><p title={song.songTitle} >{song.songTitle}</p></td>
-			<td><p title={song.artist} >{song.artist}</p></td>
-			<td><p className={styles.duration} title={minutes} >{minutes}</p></td>
-			<td className={styles.edit} title={'Edit'} onClick={() => deleteSong(song.id)} >
+			<td><p title={song.songTitle}>{song.songTitle}</p></td>
+			<td><p title={song.artist}>{song.artist}</p></td>
+			<td><p className={styles.duration} title={minutes}>{minutes}</p></td>
+			<td className={styles.edit} title={'Edit'} onClick={() => deleteSong(song.id)}>
 				<BsTrash />
 			</td>
 		</tr>
