@@ -1,6 +1,6 @@
 /***** IMPORTS *****/
 import Header from 'components/Header/Header';
-import MenuButton from 'components/MenuButton/MenuButton';
+import MenuButton from 'components/Header/MenuButton/MenuButton';
 import AddSongForm from 'components/AddSongForm/AddSongForm';
 import CurrentSong from 'components/CurrentSong/CurrentSong';
 import Progress from 'components/Progress/Progress';
@@ -11,7 +11,7 @@ import config from 'data/configData.json';
 import styles from './App.module.scss'
 import {genUid, getTimeoutObject, handleEvent, isEmpty, isError, jsonParse, serializeForm} from 'utils/actions';
 import {IPlayState, ISong} from 'types/IGeneral';
-import {addToLocalStorage, calculatePlayState, removeFromLocalStorage, songProtocolCheck} from 'utils/mActions';
+import {addToLocalStorage, calculatePlayState, processSong, removeFromLocalStorage, songProtocolCheck} from 'utils/mActions';
 import PlayList from 'components/Playlist/PlayList';
 
 
@@ -54,7 +54,6 @@ const App = () => {
 			setSong(savedPlaylist[0])
 		}
 
-		
 		// Clears interval if unmounted
 		const tempTimeout = timeouts.current;
 		return () => {
@@ -192,17 +191,6 @@ const App = () => {
 	};
 
 
-	const processSong = (song: ISong) => {
-		song.id = genUid(6);
-
-		const protocolCheck = songProtocolCheck(song);
-		if(isError(protocolCheck)) return protocolCheck;
-		return song;
-	}
-
-
-
-
 	/**
 	 * Deletes song from playlist and localStorage
 	 * @param songId Id of song to delete.
@@ -212,13 +200,17 @@ const App = () => {
 		setPlaylist(newPlaylist);
 	};
 
+	const handleShowMenu = () => {
+		setShowMenu(!showMenu);
+	}
+
 
   	/*** Return-statement ***/
     return(
 		<div className={styles.App}>
 			<div className={styles.player}>
-				<Header title={config.title} />
-				<MenuButton onMenuClick={() => setShowMenu(!showMenu)} />
+				<Header title={config.title} handleShowMenu={handleShowMenu} />
+
 				{showMenu &&
 					<AddSongForm 
 						handleAdd={addSong}
@@ -237,14 +229,15 @@ const App = () => {
 						handleNavigate={handleNavigate}
 						handleStop={handleStop}
 					/>
-
-					<div className={styles.playlist}>
-						<PlayList
-							playlist={playlist}
-							deleteSong={deleteSong} 
-						/>
-					</div>
 				</div>
+
+				<div className={styles.playlist}>
+					<PlayList
+						playlist={playlist}
+						deleteSong={deleteSong} 
+					/>
+				</div>
+				
 			</div>
 		</div>
     );

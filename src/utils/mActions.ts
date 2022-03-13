@@ -1,5 +1,5 @@
 import {IPlayState, ISong} from "types/IGeneral";
-import {jsonParse} from "./actions";
+import {genUid, isError, jsonParse} from "./actions";
 
 
 /**
@@ -15,6 +15,7 @@ export const setAudioDurations = async (songsArray: ISong[]) => {
 		tempAudio.load();
 		const newSong = new Promise<ISong>((resolve) => {
 			tempAudio.onloadedmetadata = () => {
+				console.log(tempAudio)
 				song.duration = Math.floor(tempAudio.duration);
 				resolve(song);
 			}
@@ -81,4 +82,13 @@ export const getSiteProtocol = (): 'http' | 'https' => {
 	const siteProtocol = host?.substring(0, 5) as 'http:' | 'https';
 	if(siteProtocol === 'http:') return 'http';
 	return siteProtocol;
+}
+
+
+export const processSong = (song: ISong) => {
+	song.id = genUid(16);
+
+	const protocolCheck = songProtocolCheck(song);
+	if(isError(protocolCheck)) return protocolCheck;
+	return song;
 }

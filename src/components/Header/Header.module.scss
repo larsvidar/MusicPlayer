@@ -1,9 +1,14 @@
 /***** HEADER *****/
 .Header {
+	display: flex;
+	justify-content: space-between;
+	margin: 1em 30px;
+
 	h1 {
 		color: white;
+		justify-self: center;
+		align-self: center;
 		text-align: center;
-		margin: 15px 0;
-		padding-right: 30px;
+		margin: 0 auto;
 	}
 }

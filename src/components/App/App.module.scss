@@ -1,16 +1,18 @@
 /***** General styles *****/
 .App {
 	max-width: 640px;
+	overflow: hidden;
 	position: relative;
 	margin: 0 auto;
 
 	/***** PLAYER *****/
 	.player {
 		background: #333;
-		width: 90%;
-		margin: 5% auto 2%;
+		width: 88%;
+		margin: 5% auto 9px;
 		border: solid 3px red;
 		border-radius: 50px 50px 0px 0px;
+		overflow: hidden;
 	}
 
 	/***** CONTROLS *****/
