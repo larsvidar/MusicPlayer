@@ -3,9 +3,23 @@
 	margin: 0 0 1.2em;
 
 	p {
-		font-size: 1.2em;
+		font-size: .8em;
 		overflow: hidden;
 		white-space: nowrap;
 		text-overflow: ellipsis;
+
+		@media(min-width: 300px) {
+			font-size: 5vw;
+		}
+
+		@media (min-width: 800px) {
+			font-size: 3.5vw;
+			letter-spacing: 1.3px;
+		}
+
+		@media (min-width: 1000px) {
+			font-size: 2em;
+			letter-spacing: 1.4px;
+		}
 	}
 }

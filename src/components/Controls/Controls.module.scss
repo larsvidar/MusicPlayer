@@ -20,5 +20,15 @@
 		}
 	}
 
+	@media(min-width: 300px) {
+		font-size: 11vw;
+	}
 
+	@media (min-width: 800px) {
+		font-size: 9vw;
+	}
+
+	@media (min-width: 1000px) {
+		font-size: 5em;
+	}
 }

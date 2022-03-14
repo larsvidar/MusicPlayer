@@ -10,6 +10,7 @@
 		display: flex;
 		justify-content: space-between;
 		width: 100%;
+		font-size: 1em;
 
 		.progressMeter {
 			margin: 6px 3%;
@@ -18,8 +19,24 @@
 			border-radius: 3px;
 			background-color: #aaa;
 	
-			@media screen and (min-width: 535px) {
-				//width: 80%;
+			@media(min-width: 300px) {
+				margin-top: 2vw;
+			}
+		
+			@media(min-width: 400px) {
+				margin-top:2.4vw;
+			}
+		
+			// @media (min-width: 600px) {
+			// 	margin-top: 2vw;
+			// }
+		
+			@media (min-width: 800px) {
+				margin-top: 2vw;
+			}
+		
+			@media (min-width: 1000px) {
+				margin-top: 15px;
 			}
 	
 			.progress {
@@ -28,6 +45,26 @@
 				border-radius: 3px 0 0 3px;
 				background-color: #a33; 
 			}
+		}
+
+		@media(min-width: 300px) {
+			font-size: 5vw;
+		}
+	
+		// @media(min-width: 400px) {
+		// 	font-size: 8vw;
+		// }
+	
+		// @media (min-width: 600px) {
+		// 	font-size: 7vw;
+		// }
+	
+		@media (min-width: 800px) {
+			font-size: 4vw;
+		}
+	
+		@media (min-width: 1000px) {
+			font-size: 2em;
 		}
 	}
   
